@@ -1,10 +1,22 @@
 <div id="rev-grind-20261005">
   <style>
-    #rev-grind-20261005 { position:relative; color:var(--foreground); }
-    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin:24px 0 32px; }
+    #rev-grind-20261005 { --rev-ink-2:color-mix(in srgb,var(--foreground) 68%,transparent); --rev-rule:color-mix(in srgb,var(--foreground) 14%,transparent); --rev-serif:ui-serif,"Iowan Old Style",Charter,"Sitka Text","Palatino Linotype",Georgia,serif; position:relative; color:var(--foreground); }
+    #rev-grind-20261005 .text-muted { color:var(--rev-ink-2); }
+    #rev-grind-20261005 .rev-head { display:grid; gap:6px; }
+    #rev-grind-20261005 h2 { padding-right:96px; font-family:var(--rev-serif); font-size:clamp(26px,3.4vw,34px); font-weight:500; line-height:1.15; letter-spacing:-.01em; text-wrap:balance; }
+    #rev-grind-20261005 .rev-meta { font-size:14px; line-height:1.5; }
+    #rev-grind-20261005 .rev-section { margin-top:clamp(36px,5vw,56px); padding-top:16px; border-top:1px solid var(--rev-rule); }
+    #rev-grind-20261005 .rev-section-title { font-family:var(--rev-serif); font-size:clamp(20px,2.4vw,24px); font-weight:500; line-height:1.25; text-wrap:balance; }
+    #rev-grind-20261005 .rev-section-note { display:block; margin-top:4px; max-width:72ch; }
+    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:auto auto auto; column-gap:clamp(28px,4vw,56px); row-gap:0; margin:24px 0 0; }
+    #rev-grind-20261005 .rev-pair + .rev-pair { margin-top:44px; }
     #rev-grind-20261005 figure { margin:0; min-width:0; }
-    #rev-grind-20261005 figcaption { margin-bottom:8px; }
-    #rev-grind-20261005 .rev-caption { display:block; margin-top:4px; }
+    #rev-grind-20261005 .rev-pair figure { display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
+    #rev-grind-20261005 .rev-pair figcaption { grid-row:1; margin-bottom:10px; }
+    #rev-grind-20261005 .rev-pair figure > .rev-legend { grid-row:2; margin-bottom:2px; }
+    #rev-grind-20261005 .rev-pair figure > div:last-child { grid-row:3; }
+    #rev-grind-20261005 .rev-fig-title { font-size:16px; font-weight:600; line-height:1.3; text-wrap:balance; }
+    #rev-grind-20261005 .rev-caption { display:block; margin-top:3px; }
     #rev-grind-20261005 .rev-chart { width:100%; display:block; overflow:visible; }
     #rev-grind-20261005 .rev-chart text { fill:var(--foreground); font-size:12px; font-weight:400; }
     #rev-grind-20261005 .rev-chart .domain { stroke:var(--border); }
@@ -12,87 +24,106 @@
     #rev-grind-20261005 .rev-chart .grid line { stroke:var(--border); opacity:.55; }
     #rev-grind-20261005 .rev-chart .grid .domain { display:none; }
     #rev-grind-20261005 .rev-chart rect[data-chart-frame] { fill:none; stroke:var(--border); stroke-width:1; }
-    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin:6px 0; }
-    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; padding:2px 0; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:6px; }
-    #rev-grind-20261005 .rev-legend button[aria-pressed="false"] { opacity:.45; }
-    #rev-grind-20261005 .rev-swatch { display:inline-block; width:14px; height:3px; background:var(--series); }
-    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:8px 20px; margin:8px 0; }
-    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:12px 0 18px; }
+    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:2px 4px; margin:4px 0 4px -8px; }
+    #rev-grind-20261005 .rev-legend > span { display:inline-flex; align-items:center; gap:8px; padding:6px 8px; }
+    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; border-radius:6px; min-height:32px; padding:6px 8px; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:8px; }
+    #rev-grind-20261005 .rev-legend button:hover { background:var(--muted); }
+    #rev-grind-20261005 .rev-legend button:focus-visible { outline:2px solid var(--ring); outline-offset:-2px; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed="false"] { color:var(--rev-ink-2); }
+    #rev-grind-20261005 .rev-legend button[aria-pressed="false"] .rev-swatch { opacity:.35; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed="false"] > span:last-child { text-decoration:line-through; text-decoration-thickness:1px; }
+    #rev-grind-20261005 .rev-swatch { display:inline-block; width:16px; height:4px; border-radius:2px; background:var(--series); }
+    #rev-grind-20261005 .rev-controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:8px 32px; margin:16px 0 0; }
+    #rev-grind-20261005 .rev-target { flex:0 1 280px; max-width:280px; margin:0; }
+    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:6px 24px; margin:8px 0; }
+    #rev-grind-20261005 #rev-collection-summary { font-size:15px; }
+    #rev-grind-20261005 .rev-time { max-width:920px; }
+    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 24px; margin:20px 0 24px; }
+    #rev-grind-20261005 .rev-time-fields .form-label { margin:0; }
     #rev-grind-20261005 .rev-tip { position:absolute; pointer-events:none; z-index:5; max-width:260px; }
     #rev-grind-20261005 .rev-tip-row { display:flex; justify-content:space-between; gap:16px; margin-top:4px; }
-    #rev-grind-20261005 .rev-target { max-width:280px; }
-    #rev-grind-20261005 h2 { padding-right:96px; }
     @media(max-width:680px) {
-      #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); gap:28px; }
+      #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); }
+      #rev-grind-20261005 .rev-pair figure + figure { margin-top:40px; }
       #rev-grind-20261005 .rev-time-fields { grid-template-columns:minmax(0,1fr); }
+      #rev-grind-20261005 .rev-target { flex-basis:100%; max-width:none; }
     }
     @media(pointer:coarse) { #rev-grind-20261005 .rev-legend button { min-height:44px; } }
   </style>
-  <h2>Revenant farming</h2>
-  <div class="text-small text-muted">Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items</div>
-  <div id="rev-player-legend" class="rev-legend" aria-label="Players"></div>
-  <div class="rev-pair">
-    <figure>
-      <figcaption><h3>Average kills for all four</h3><span class="rev-caption text-small text-muted">Helm · chainbody · platelegs · spear</span></figcaption>
-      <div id="rev-kills"></div>
-    </figure>
-    <figure>
-      <figcaption><h3>Monster health</h3><span class="rev-caption text-small text-muted">Before revenant healing</span></figcaption>
-      <div id="rev-health"></div>
-    </figure>
-  </div>
-  <div class="rev-pair">
-    <figure>
-      <figcaption><h3>Damage that gets through</h3><span class="rev-caption text-small text-muted">Bar: Maëlle · diamond: Ryan</span></figcaption>
-      <div id="rev-damage"></div>
-    </figure>
-    <figure>
-      <figcaption><h3>Relative damage work</h3><span class="rev-caption text-small text-muted">Idealized model · goblin 16 = 1× · lower is better</span><span class="rev-caption text-small text-muted">Excludes healing, overkill, rotations, respawn, travel and banking</span></figcaption>
-      <div id="rev-work"></div>
-    </figure>
-  </div>
-  <div class="rev-pair">
-    <figure>
-      <figcaption><h3>Your current weapon alternatives</h3><span class="rev-caption text-small text-muted">Current levels · before armour/accessory bonuses · rune +3 = 100%</span></figcaption>
-      <div class="rev-legend" aria-label="Weapon comparison targets">
-        <span><span class="rev-swatch" style="--series:var(--viz-series-3)"></span> Goblin 16</span>
-        <span><span class="rev-swatch" style="--series:var(--viz-series-5)"></span> Dark beast</span>
-      </div>
-      <div id="rev-weapons"></div>
-    </figure>
-    <figure>
-      <figcaption><h3>Ghost Hunter damage bonus</h3><span class="rev-caption text-small text-muted">Goggles + legs + backpack = three pieces</span></figcaption>
-      <div id="rev-ghost"></div>
-    </figure>
-  </div>
-  <hr>
-  <h3>Collecting four different items</h3>
-  <label class="form-label rev-target">Target revenant
-    <select id="rev-target" class="form-select"></select>
-  </label>
-  <div id="rev-collection-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
-  <div class="rev-pair">
-    <figure>
-      <figcaption><h3>Waiting for each new item</h3><span id="rev-stage-caption" class="rev-caption text-small text-muted"></span></figcaption>
-      <div id="rev-stages"></div>
-    </figure>
-    <figure>
-      <figcaption><h3>Chance of having all four</h3><span class="rev-caption text-small text-muted">Kills · exact probability model</span></figcaption>
-      <div id="rev-cdf-legend" class="rev-legend" aria-label="Collection probability series"></div>
-      <div id="rev-cdf"></div>
-    </figure>
-  </div>
-  <hr>
-  <h3>Time at your measured kill rates</h3>
-  <div class="text-small text-muted">Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements</div>
-  <div class="rev-time-fields">
-    <label class="form-label">Goblin 16: kills/hour<input id="rev-rate-gob16" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
-    <label class="form-label">Demon: kills/hour<input id="rev-rate-demon" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
-    <label class="form-label">Dark beast: kills/hour<input id="rev-rate-dark" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
-  </div>
-  <div id="rev-hours-legend" class="rev-legend" aria-label="Time estimates"></div>
-  <div id="rev-hours"></div>
-  <div id="rev-time-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
+  <header class="rev-head">
+    <h2>Revenant farming</h2>
+    <div class="rev-meta text-small text-muted">Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items</div>
+    <div id="rev-player-legend" class="rev-legend" aria-label="Players"></div>
+  </header>
+  <section class="rev-section" aria-labelledby="rev-sec-compare">
+    <h3 id="rev-sec-compare" class="rev-section-title">Comparing revenants and gear</h3>
+    <div class="rev-pair">
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Average kills for all four</h4><span class="rev-caption text-small text-muted">Helm · chainbody · platelegs · spear</span></figcaption>
+        <div id="rev-kills"></div>
+      </figure>
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Monster health</h4><span class="rev-caption text-small text-muted">Before revenant healing</span></figcaption>
+        <div id="rev-health"></div>
+      </figure>
+    </div>
+    <div class="rev-pair">
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Damage that gets through</h4><span class="rev-caption text-small text-muted">Bar: Maëlle · diamond: Ryan</span></figcaption>
+        <div id="rev-damage"></div>
+      </figure>
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Relative damage work</h4><span class="rev-caption text-small text-muted">Idealized model · goblin 16 = 1× · lower is better</span><span class="rev-caption text-small text-muted">Excludes healing, overkill, rotations, respawn, travel and banking</span></figcaption>
+        <div id="rev-work"></div>
+      </figure>
+    </div>
+    <div class="rev-pair">
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Your current weapon alternatives</h4><span class="rev-caption text-small text-muted">Current levels · before armour/accessory bonuses · rune +3 = 100%</span></figcaption>
+        <div class="rev-legend" aria-label="Weapon comparison targets">
+          <span><span class="rev-swatch" style="--series:var(--viz-series-3)"></span> Goblin 16</span>
+          <span><span class="rev-swatch" style="--series:var(--viz-series-5)"></span> Dark beast</span>
+        </div>
+        <div id="rev-weapons"></div>
+      </figure>
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Ghost Hunter damage bonus</h4><span class="rev-caption text-small text-muted">Goggles + legs + backpack = three pieces</span></figcaption>
+        <div id="rev-ghost"></div>
+      </figure>
+    </div>
+  </section>
+  <section class="rev-section" aria-labelledby="rev-sec-collect">
+    <h3 id="rev-sec-collect" class="rev-section-title">Collecting four different items</h3>
+    <div class="rev-controls">
+      <label class="form-label rev-target">Target revenant
+        <select id="rev-target" class="form-select"></select>
+      </label>
+      <div id="rev-collection-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
+    </div>
+    <div class="rev-pair">
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Waiting for each new item</h4><span id="rev-stage-caption" class="rev-caption text-small text-muted"></span></figcaption>
+        <div id="rev-stages"></div>
+      </figure>
+      <figure>
+        <figcaption><h4 class="rev-fig-title">Chance of having all four</h4><span class="rev-caption text-small text-muted">Kills · exact probability model</span></figcaption>
+        <div id="rev-cdf-legend" class="rev-legend" aria-label="Collection probability series"></div>
+        <div id="rev-cdf"></div>
+      </figure>
+    </div>
+  </section>
+  <section class="rev-section rev-time" aria-labelledby="rev-sec-time">
+    <h3 id="rev-sec-time" class="rev-section-title">Time at your measured kill rates</h3>
+    <span class="rev-section-note text-small text-muted">Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements</span>
+    <div class="rev-time-fields">
+      <label class="form-label">Goblin 16: kills/hour<input id="rev-rate-gob16" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+      <label class="form-label">Demon: kills/hour<input id="rev-rate-demon" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+      <label class="form-label">Dark beast: kills/hour<input id="rev-rate-dark" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+    </div>
+    <div id="rev-hours-legend" class="rev-legend" aria-label="Time estimates"></div>
+    <div id="rev-hours"></div>
+    <div id="rev-time-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
+  </section>
   <div id="rev-tip" class="tooltip rev-tip" role="tooltip" hidden></div>
   <div id="rev-error" class="text-destructive" role="alert" hidden></div>
 </div>

@@ -1,11 +1,17 @@
 <style>
-  .lab-nav,.lab-notes { font:14px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; color:light-dark(#60636a,#adaeb4); }
-  .lab-nav { margin:0 0 24px; }
-  .lab-nav a,.lab-notes a { display:inline-block; color:light-dark(#225baf,#a6c8ff); text-underline-offset:.2em; }
-  .lab-nav a { padding:10px 0; min-height:44px; }
-  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:3px solid currentColor; outline-offset:4px; }
-  .lab-notes { margin-top:32px; border-top:1px solid light-dark(#d9dce1,#44454b); padding-top:16px; }
-  .lab-notes p { max-width:75ch; margin:0 0 12px; }
-  body { max-width:1280px; margin-inline:auto; }
+  body { max-width:1200px; margin-inline:auto; padding:clamp(8px,2vw,20px) clamp(16px,4vw,40px) clamp(40px,6vw,72px); color:light-dark(#1f2328,#ececed); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .lab-nav,.lab-notes { --lab-link:light-dark(#1f5aa8,#9cc3ff); --lab-line:light-dark(#e4e5e8,#2f3135); --lab-muted:light-dark(#4f545b,#b3b6bb); }
+  .lab-nav { display:flex; align-items:center; margin:0 0 clamp(20px,3.5vw,36px); border-bottom:1px solid var(--lab-line); }
+  .lab-nav a { display:inline-flex; align-items:center; gap:.55em; min-height:48px; padding:0 4px; margin-inline:-4px; border-radius:4px; color:inherit; text-decoration:none; }
+  .lab-nav .lab-arrow { color:var(--lab-muted); }
+  .lab-nav .lab-mark { font-family:ui-serif,"Iowan Old Style",Charter,"Sitka Text","Palatino Linotype",Georgia,serif; font-size:18px; }
+  .lab-nav a:hover .lab-mark { color:var(--lab-link); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em; }
+  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:2px solid var(--lab-link); outline-offset:2px; }
+  .lab-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .lab-notes { display:grid; gap:10px 48px; margin-top:clamp(40px,6vw,64px); padding-top:20px; border-top:1px solid var(--lab-line); font-size:14px; line-height:1.65; color:var(--lab-muted); }
+  .lab-notes-title { margin:0; font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:inherit; }
+  .lab-notes p { max-width:68ch; margin:0 0 12px; text-wrap:pretty; }
+  .lab-notes a { color:var(--lab-link); text-underline-offset:.2em; }
+  @media (min-width:800px) { .lab-notes { grid-template-columns:11rem minmax(0,1fr); } }
 </style>
-<nav class="lab-nav" aria-label="Collection"><a href="{{HOME}}">Back to Shared Lab</a></nav>
+<nav class="lab-nav" aria-label="Collection"><a href="{{HOME}}"><span class="lab-arrow" aria-hidden="true">←</span><span><span class="lab-hidden">Back to </span><span class="lab-mark">Shared Lab</span></span></a></nav>

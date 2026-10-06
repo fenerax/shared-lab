@@ -11,16 +11,22 @@
 </head>
 <body>
 <style>
-  .lab-nav,.lab-notes { font:14px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; color:light-dark(#60636a,#adaeb4); }
-  .lab-nav { margin:0 0 24px; }
-  .lab-nav a,.lab-notes a { display:inline-block; color:light-dark(#225baf,#a6c8ff); text-underline-offset:.2em; }
-  .lab-nav a { padding:10px 0; min-height:44px; }
-  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:3px solid currentColor; outline-offset:4px; }
-  .lab-notes { margin-top:32px; border-top:1px solid light-dark(#d9dce1,#44454b); padding-top:16px; }
-  .lab-notes p { max-width:75ch; margin:0 0 12px; }
-  body { max-width:1280px; margin-inline:auto; }
+  body { max-width:1200px; margin-inline:auto; padding:clamp(8px,2vw,20px) clamp(16px,4vw,40px) clamp(40px,6vw,72px); color:light-dark(#1f2328,#ececed); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  .lab-nav,.lab-notes { --lab-link:light-dark(#1f5aa8,#9cc3ff); --lab-line:light-dark(#e4e5e8,#2f3135); --lab-muted:light-dark(#4f545b,#b3b6bb); }
+  .lab-nav { display:flex; align-items:center; margin:0 0 clamp(20px,3.5vw,36px); border-bottom:1px solid var(--lab-line); }
+  .lab-nav a { display:inline-flex; align-items:center; gap:.55em; min-height:48px; padding:0 4px; margin-inline:-4px; border-radius:4px; color:inherit; text-decoration:none; }
+  .lab-nav .lab-arrow { color:var(--lab-muted); }
+  .lab-nav .lab-mark { font-family:ui-serif,"Iowan Old Style",Charter,"Sitka Text","Palatino Linotype",Georgia,serif; font-size:18px; }
+  .lab-nav a:hover .lab-mark { color:var(--lab-link); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em; }
+  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:2px solid var(--lab-link); outline-offset:2px; }
+  .lab-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .lab-notes { display:grid; gap:10px 48px; margin-top:clamp(40px,6vw,64px); padding-top:20px; border-top:1px solid var(--lab-line); font-size:14px; line-height:1.65; color:var(--lab-muted); }
+  .lab-notes-title { margin:0; font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:inherit; }
+  .lab-notes p { max-width:68ch; margin:0 0 12px; text-wrap:pretty; }
+  .lab-notes a { color:var(--lab-link); text-underline-offset:.2em; }
+  @media (min-width:800px) { .lab-notes { grid-template-columns:11rem minmax(0,1fr); } }
 </style>
-<nav class="lab-nav" aria-label="Collection"><a href="../../">Back to Shared Lab</a></nav>
+<nav class="lab-nav" aria-label="Collection"><a href="../../"><span class="lab-arrow" aria-hidden="true">←</span><span><span class="lab-hidden">Back to </span><span class="lab-mark">Shared Lab</span></span></a></nav>
 
 <iframe id="codex-visualization" sandbox="allow-scripts" referrerpolicy="no-referrer" title="Revenant farming — Shared Lab" data-srcdoc="&lt;!doctype html&gt;
 &lt;html lang=&quot;en&quot; data-visualize-standalone&gt;
@@ -1552,11 +1558,23 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/script&gt;
 &lt;div id=&quot;rev-grind-20261005&quot;&gt;
   &lt;style&gt;
-    #rev-grind-20261005 { position:relative; color:var(--foreground); }
-    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin:24px 0 32px; }
+    #rev-grind-20261005 { --rev-ink-2:color-mix(in srgb,var(--foreground) 68%,transparent); --rev-rule:color-mix(in srgb,var(--foreground) 14%,transparent); --rev-serif:ui-serif,&quot;Iowan Old Style&quot;,Charter,&quot;Sitka Text&quot;,&quot;Palatino Linotype&quot;,Georgia,serif; position:relative; color:var(--foreground); }
+    #rev-grind-20261005 .text-muted { color:var(--rev-ink-2); }
+    #rev-grind-20261005 .rev-head { display:grid; gap:6px; }
+    #rev-grind-20261005 h2 { padding-right:96px; font-family:var(--rev-serif); font-size:clamp(26px,3.4vw,34px); font-weight:500; line-height:1.15; letter-spacing:-.01em; text-wrap:balance; }
+    #rev-grind-20261005 .rev-meta { font-size:14px; line-height:1.5; }
+    #rev-grind-20261005 .rev-section { margin-top:clamp(36px,5vw,56px); padding-top:16px; border-top:1px solid var(--rev-rule); }
+    #rev-grind-20261005 .rev-section-title { font-family:var(--rev-serif); font-size:clamp(20px,2.4vw,24px); font-weight:500; line-height:1.25; text-wrap:balance; }
+    #rev-grind-20261005 .rev-section-note { display:block; margin-top:4px; max-width:72ch; }
+    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:auto auto auto; column-gap:clamp(28px,4vw,56px); row-gap:0; margin:24px 0 0; }
+    #rev-grind-20261005 .rev-pair + .rev-pair { margin-top:44px; }
     #rev-grind-20261005 figure { margin:0; min-width:0; }
-    #rev-grind-20261005 figcaption { margin-bottom:8px; }
-    #rev-grind-20261005 .rev-caption { display:block; margin-top:4px; }
+    #rev-grind-20261005 .rev-pair figure { display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
+    #rev-grind-20261005 .rev-pair figcaption { grid-row:1; margin-bottom:10px; }
+    #rev-grind-20261005 .rev-pair figure &gt; .rev-legend { grid-row:2; margin-bottom:2px; }
+    #rev-grind-20261005 .rev-pair figure &gt; div:last-child { grid-row:3; }
+    #rev-grind-20261005 .rev-fig-title { font-size:16px; font-weight:600; line-height:1.3; text-wrap:balance; }
+    #rev-grind-20261005 .rev-caption { display:block; margin-top:3px; }
     #rev-grind-20261005 .rev-chart { width:100%; display:block; overflow:visible; }
     #rev-grind-20261005 .rev-chart text { fill:var(--foreground); font-size:12px; font-weight:400; }
     #rev-grind-20261005 .rev-chart .domain { stroke:var(--border); }
@@ -1564,87 +1582,106 @@ html&gt;body{padding:0}&lt;/style&gt;
     #rev-grind-20261005 .rev-chart .grid line { stroke:var(--border); opacity:.55; }
     #rev-grind-20261005 .rev-chart .grid .domain { display:none; }
     #rev-grind-20261005 .rev-chart rect[data-chart-frame] { fill:none; stroke:var(--border); stroke-width:1; }
-    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin:6px 0; }
-    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; padding:2px 0; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:6px; }
-    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] { opacity:.45; }
-    #rev-grind-20261005 .rev-swatch { display:inline-block; width:14px; height:3px; background:var(--series); }
-    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:8px 20px; margin:8px 0; }
-    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:12px 0 18px; }
+    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:2px 4px; margin:4px 0 4px -8px; }
+    #rev-grind-20261005 .rev-legend &gt; span { display:inline-flex; align-items:center; gap:8px; padding:6px 8px; }
+    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; border-radius:6px; min-height:32px; padding:6px 8px; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:8px; }
+    #rev-grind-20261005 .rev-legend button:hover { background:var(--muted); }
+    #rev-grind-20261005 .rev-legend button:focus-visible { outline:2px solid var(--ring); outline-offset:-2px; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] { color:var(--rev-ink-2); }
+    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] .rev-swatch { opacity:.35; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] &gt; span:last-child { text-decoration:line-through; text-decoration-thickness:1px; }
+    #rev-grind-20261005 .rev-swatch { display:inline-block; width:16px; height:4px; border-radius:2px; background:var(--series); }
+    #rev-grind-20261005 .rev-controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:8px 32px; margin:16px 0 0; }
+    #rev-grind-20261005 .rev-target { flex:0 1 280px; max-width:280px; margin:0; }
+    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:6px 24px; margin:8px 0; }
+    #rev-grind-20261005 #rev-collection-summary { font-size:15px; }
+    #rev-grind-20261005 .rev-time { max-width:920px; }
+    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 24px; margin:20px 0 24px; }
+    #rev-grind-20261005 .rev-time-fields .form-label { margin:0; }
     #rev-grind-20261005 .rev-tip { position:absolute; pointer-events:none; z-index:5; max-width:260px; }
     #rev-grind-20261005 .rev-tip-row { display:flex; justify-content:space-between; gap:16px; margin-top:4px; }
-    #rev-grind-20261005 .rev-target { max-width:280px; }
-    #rev-grind-20261005 h2 { padding-right:96px; }
     @media(max-width:680px) {
-      #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); gap:28px; }
+      #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); }
+      #rev-grind-20261005 .rev-pair figure + figure { margin-top:40px; }
       #rev-grind-20261005 .rev-time-fields { grid-template-columns:minmax(0,1fr); }
+      #rev-grind-20261005 .rev-target { flex-basis:100%; max-width:none; }
     }
     @media(pointer:coarse) { #rev-grind-20261005 .rev-legend button { min-height:44px; } }
   &lt;/style&gt;
-  &lt;h2&gt;Revenant farming&lt;/h2&gt;
-  &lt;div class=&quot;text-small text-muted&quot;&gt;Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items&lt;/div&gt;
-  &lt;div id=&quot;rev-player-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Players&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;rev-pair&quot;&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Average kills for all four&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Helm · chainbody · platelegs · spear&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-kills&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Monster health&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Before revenant healing&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-health&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;rev-pair&quot;&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Damage that gets through&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Bar: Maëlle · diamond: Ryan&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-damage&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Relative damage work&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Idealized model · goblin 16 = 1× · lower is better&lt;/span&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Excludes healing, overkill, rotations, respawn, travel and banking&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-work&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-  &lt;/div&gt;
-  &lt;div class=&quot;rev-pair&quot;&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Your current weapon alternatives&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Current levels · before armour/accessory bonuses · rune +3 = 100%&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div class=&quot;rev-legend&quot; aria-label=&quot;Weapon comparison targets&quot;&gt;
-        &lt;span&gt;&lt;span class=&quot;rev-swatch&quot; style=&quot;--series:var(--viz-series-3)&quot;&gt;&lt;/span&gt; Goblin 16&lt;/span&gt;
-        &lt;span&gt;&lt;span class=&quot;rev-swatch&quot; style=&quot;--series:var(--viz-series-5)&quot;&gt;&lt;/span&gt; Dark beast&lt;/span&gt;
-      &lt;/div&gt;
-      &lt;div id=&quot;rev-weapons&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Ghost Hunter damage bonus&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Goggles + legs + backpack = three pieces&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-ghost&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-  &lt;/div&gt;
-  &lt;hr&gt;
-  &lt;h3&gt;Collecting four different items&lt;/h3&gt;
-  &lt;label class=&quot;form-label rev-target&quot;&gt;Target revenant
-    &lt;select id=&quot;rev-target&quot; class=&quot;form-select&quot;&gt;&lt;/select&gt;
-  &lt;/label&gt;
-  &lt;div id=&quot;rev-collection-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
-  &lt;div class=&quot;rev-pair&quot;&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Waiting for each new item&lt;/h3&gt;&lt;span id=&quot;rev-stage-caption&quot; class=&quot;rev-caption text-small text-muted&quot;&gt;&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-stages&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-    &lt;figure&gt;
-      &lt;figcaption&gt;&lt;h3&gt;Chance of having all four&lt;/h3&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Kills · exact probability model&lt;/span&gt;&lt;/figcaption&gt;
-      &lt;div id=&quot;rev-cdf-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Collection probability series&quot;&gt;&lt;/div&gt;
-      &lt;div id=&quot;rev-cdf&quot;&gt;&lt;/div&gt;
-    &lt;/figure&gt;
-  &lt;/div&gt;
-  &lt;hr&gt;
-  &lt;h3&gt;Time at your measured kill rates&lt;/h3&gt;
-  &lt;div class=&quot;text-small text-muted&quot;&gt;Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements&lt;/div&gt;
-  &lt;div class=&quot;rev-time-fields&quot;&gt;
-    &lt;label class=&quot;form-label&quot;&gt;Goblin 16: kills/hour&lt;input id=&quot;rev-rate-gob16&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
-    &lt;label class=&quot;form-label&quot;&gt;Demon: kills/hour&lt;input id=&quot;rev-rate-demon&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
-    &lt;label class=&quot;form-label&quot;&gt;Dark beast: kills/hour&lt;input id=&quot;rev-rate-dark&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
-  &lt;/div&gt;
-  &lt;div id=&quot;rev-hours-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Time estimates&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;rev-hours&quot;&gt;&lt;/div&gt;
-  &lt;div id=&quot;rev-time-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+  &lt;header class=&quot;rev-head&quot;&gt;
+    &lt;h2&gt;Revenant farming&lt;/h2&gt;
+    &lt;div class=&quot;rev-meta text-small text-muted&quot;&gt;Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items&lt;/div&gt;
+    &lt;div id=&quot;rev-player-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Players&quot;&gt;&lt;/div&gt;
+  &lt;/header&gt;
+  &lt;section class=&quot;rev-section&quot; aria-labelledby=&quot;rev-sec-compare&quot;&gt;
+    &lt;h3 id=&quot;rev-sec-compare&quot; class=&quot;rev-section-title&quot;&gt;Comparing revenants and gear&lt;/h3&gt;
+    &lt;div class=&quot;rev-pair&quot;&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Average kills for all four&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Helm · chainbody · platelegs · spear&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-kills&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Monster health&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Before revenant healing&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-health&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;rev-pair&quot;&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Damage that gets through&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Bar: Maëlle · diamond: Ryan&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-damage&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Relative damage work&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Idealized model · goblin 16 = 1× · lower is better&lt;/span&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Excludes healing, overkill, rotations, respawn, travel and banking&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-work&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;rev-pair&quot;&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Your current weapon alternatives&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Current levels · before armour/accessory bonuses · rune +3 = 100%&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div class=&quot;rev-legend&quot; aria-label=&quot;Weapon comparison targets&quot;&gt;
+          &lt;span&gt;&lt;span class=&quot;rev-swatch&quot; style=&quot;--series:var(--viz-series-3)&quot;&gt;&lt;/span&gt; Goblin 16&lt;/span&gt;
+          &lt;span&gt;&lt;span class=&quot;rev-swatch&quot; style=&quot;--series:var(--viz-series-5)&quot;&gt;&lt;/span&gt; Dark beast&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;rev-weapons&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Ghost Hunter damage bonus&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Goggles + legs + backpack = three pieces&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-ghost&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class=&quot;rev-section&quot; aria-labelledby=&quot;rev-sec-collect&quot;&gt;
+    &lt;h3 id=&quot;rev-sec-collect&quot; class=&quot;rev-section-title&quot;&gt;Collecting four different items&lt;/h3&gt;
+    &lt;div class=&quot;rev-controls&quot;&gt;
+      &lt;label class=&quot;form-label rev-target&quot;&gt;Target revenant
+        &lt;select id=&quot;rev-target&quot; class=&quot;form-select&quot;&gt;&lt;/select&gt;
+      &lt;/label&gt;
+      &lt;div id=&quot;rev-collection-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;rev-pair&quot;&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Waiting for each new item&lt;/h4&gt;&lt;span id=&quot;rev-stage-caption&quot; class=&quot;rev-caption text-small text-muted&quot;&gt;&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-stages&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+      &lt;figure&gt;
+        &lt;figcaption&gt;&lt;h4 class=&quot;rev-fig-title&quot;&gt;Chance of having all four&lt;/h4&gt;&lt;span class=&quot;rev-caption text-small text-muted&quot;&gt;Kills · exact probability model&lt;/span&gt;&lt;/figcaption&gt;
+        &lt;div id=&quot;rev-cdf-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Collection probability series&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;rev-cdf&quot;&gt;&lt;/div&gt;
+      &lt;/figure&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class=&quot;rev-section rev-time&quot; aria-labelledby=&quot;rev-sec-time&quot;&gt;
+    &lt;h3 id=&quot;rev-sec-time&quot; class=&quot;rev-section-title&quot;&gt;Time at your measured kill rates&lt;/h3&gt;
+    &lt;span class=&quot;rev-section-note text-small text-muted&quot;&gt;Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements&lt;/span&gt;
+    &lt;div class=&quot;rev-time-fields&quot;&gt;
+      &lt;label class=&quot;form-label&quot;&gt;Goblin 16: kills/hour&lt;input id=&quot;rev-rate-gob16&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+      &lt;label class=&quot;form-label&quot;&gt;Demon: kills/hour&lt;input id=&quot;rev-rate-demon&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+      &lt;label class=&quot;form-label&quot;&gt;Dark beast: kills/hour&lt;input id=&quot;rev-rate-dark&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;rev-hours-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Time estimates&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;rev-hours&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;rev-time-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+  &lt;/section&gt;
   &lt;div id=&quot;rev-tip&quot; class=&quot;tooltip rev-tip&quot; role=&quot;tooltip&quot; hidden&gt;&lt;/div&gt;
   &lt;div id=&quot;rev-error&quot; class=&quot;text-destructive&quot; role=&quot;alert&quot; hidden&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -2685,10 +2722,13 @@ html&gt;body{padding:0}&lt;/style&gt;
 })();
 </script>
 <footer class="lab-notes">
-  <p>This model uses one shared set of four corrupted dragon items: helm, chainbody, platelegs and spear. The all-four estimates account for duplicate drops. The average is 6,250 kills at a 1-in-3,000 chance for each item; it is not a guarantee.</p>
-  <p>Damage work is an idealized comparison, not a measured kill rate. It excludes healing, overkill, ability rotations, respawn, travel and banking. Enter measured kills per hour in the time calculator to compare your actual results.</p>
-  <p>Research snapshot: 5 October 2026. Sources: <a href="https://runescape.wiki/w/Revenants">RuneScape Wiki: revenants</a>, <a href="https://runescape.wiki/w/Ghost_hunter_equipment">Ghost hunter equipment</a> and <a href="https://runescape.wiki/w/Hit_chance">hit chance</a>.</p>
-  <p>Values you enter are saved only in this browser. They do not update anyone else's inputs.</p>
+  <h2 class="lab-notes-title">Notes and sources</h2>
+  <div class="lab-notes-body">
+    <p>This model uses one shared set of four corrupted dragon items: helm, chainbody, platelegs and spear. The all-four estimates account for duplicate drops. The average is 6,250 kills at a 1-in-3,000 chance for each item; it is not a guarantee.</p>
+    <p>Damage work is an idealized comparison, not a measured kill rate. It excludes healing, overkill, ability rotations, respawn, travel and banking. Enter measured kills per hour in the time calculator to compare your actual results.</p>
+    <p>Research snapshot: 5 October 2026. Sources: <a href="https://runescape.wiki/w/Revenants">RuneScape Wiki: revenants</a>, <a href="https://runescape.wiki/w/Ghost_hunter_equipment">Ghost hunter equipment</a> and <a href="https://runescape.wiki/w/Hit_chance">hit chance</a>.</p>
+    <p>Values you enter are saved only in this browser. They do not update anyone else's inputs.</p>
+  </div>
 </footer>
 
 </body>
