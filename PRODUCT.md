@@ -6,4 +6,4 @@ The first project is the existing interactive revenant comparison. Visitors must
 
 Publish only explicitly selected artifacts. The gallery must not expose the personal assistant workspace or vault. Start with public access by link. Optional email-based access can be added later using a host that enforces authentication, such as Cloudflare Access.
 
-This is a small navigation wrapper for existing visualizations, not a new application or brand. Inherit their neutral typography, light/dark support and readable layout. Use a compact project list and clear links.
+Use a distinct visual identity for the collection and its projects: warm parchment or dark green surfaces, teal and ember accents, Fraunces headings and Instrument Sans body text. The collection has a large title, a project list and a dark featured preview from a real chart. Keep all nine revenant charts visible on one page, with responsive layouts, readable controls and clear links back to the collection. Restyling must preserve the calculator code, data and saved-input behavior.

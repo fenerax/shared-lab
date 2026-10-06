@@ -1,17 +1,30 @@
 <style>
-  body { max-width:1200px; margin-inline:auto; padding:clamp(8px,2vw,20px) clamp(16px,4vw,40px) clamp(40px,6vw,72px); color:light-dark(#1f2328,#ececed); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  .lab-nav,.lab-notes { --lab-link:light-dark(#1f5aa8,#9cc3ff); --lab-line:light-dark(#e4e5e8,#2f3135); --lab-muted:light-dark(#4f545b,#b3b6bb); }
-  .lab-nav { display:flex; align-items:center; margin:0 0 clamp(20px,3.5vw,36px); border-bottom:1px solid var(--lab-line); }
-  .lab-nav a { display:inline-flex; align-items:center; gap:.55em; min-height:48px; padding:0 4px; margin-inline:-4px; border-radius:4px; color:inherit; text-decoration:none; }
-  .lab-nav .lab-arrow { color:var(--lab-muted); }
-  .lab-nav .lab-mark { font-family:ui-serif,"Iowan Old Style",Charter,"Sitka Text","Palatino Linotype",Georgia,serif; font-size:18px; }
-  .lab-nav a:hover .lab-mark { color:var(--lab-link); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em; }
-  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:2px solid var(--lab-link); outline-offset:2px; }
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Instrument+Sans:wght@400..700&display=swap");
+  html { color-scheme:light dark; background:light-dark(#f2ece0,#0e1312); }
+  body {
+    max-width:1280px; margin-inline:auto; padding:clamp(10px,2vw,20px) clamp(12px,3vw,40px) clamp(40px,6vw,72px);
+    color:light-dark(#1d1b17,#ece7dc); font:15px/1.6 "Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(60rem 30rem at 85% -6%,light-dark(rgb(11 107 93 / .12),rgb(110 231 207 / .08)),transparent 70%) no-repeat,light-dark(#f2ece0,#0e1312);
+  }
+  .lab-nav,.lab-notes {
+    --lab-ground:light-dark(#f2ece0,#0e1312); --lab-panel:light-dark(#fbf8f1,#151c1a); --lab-ink:light-dark(#1d1b17,#ece7dc); --lab-muted:light-dark(#4b453b,#b9b2a4);
+    --lab-line:light-dark(#d8cdb8,#2a3431); --lab-link:light-dark(#0b6b5d,#6ee7cf); --lab-ember:light-dark(#a63a16,#f4a261);
+    --lab-display:"Fraunces",ui-serif,"Iowan Old Style",Charter,Georgia,serif;
+  }
+  .lab-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 clamp(12px,2vw,20px); padding:6px 6px 6px 8px; border:1px solid #2a3b37; border-radius:999px; background:#0c1211; color:#efe9dc; }
+  .lab-nav a { display:inline-flex; align-items:center; gap:10px; min-height:44px; padding:0 16px 0 6px; border-radius:999px; color:inherit; text-decoration:none; }
+  .lab-nav .lab-arrow { display:grid; place-items:center; width:32px; height:32px; border-radius:50%; background:#6ee7cf; color:#08201b; font-size:16px; line-height:1; transition:translate .18s; }
+  .lab-nav .lab-mark { font-family:var(--lab-display); font-size:18px; font-weight:600; letter-spacing:-.01em; }
+  .lab-nav a:hover { background:#15211e; }
+  .lab-nav a:hover .lab-arrow { translate:-3px 0; }
+  .lab-nav a:focus-visible { outline:3px solid #6ee7cf; outline-offset:2px; }
+  @media (prefers-reduced-motion:reduce) { .lab-nav .lab-arrow { transition:none; } }
   .lab-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
-  .lab-notes { display:grid; gap:10px 48px; margin-top:clamp(40px,6vw,64px); padding-top:20px; border-top:1px solid var(--lab-line); font-size:14px; line-height:1.65; color:var(--lab-muted); }
-  .lab-notes-title { margin:0; font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:inherit; }
-  .lab-notes p { max-width:68ch; margin:0 0 12px; text-wrap:pretty; }
+  .lab-notes { display:grid; gap:14px 48px; margin-top:clamp(32px,5vw,56px); padding:clamp(20px,3vw,32px); border:1px solid var(--lab-line); border-radius:24px; background:var(--lab-panel); font-size:15px; line-height:1.65; color:var(--lab-muted); }
+  .lab-notes-title { margin:0; font-family:var(--lab-display); font-size:24px; font-weight:600; line-height:1.15; letter-spacing:-.01em; color:var(--lab-ink); }
+  .lab-notes p { max-width:70ch; margin:0 0 12px; text-wrap:pretty; }
   .lab-notes a { color:var(--lab-link); text-underline-offset:.2em; }
-  @media (min-width:800px) { .lab-notes { grid-template-columns:11rem minmax(0,1fr); } }
+  .lab-notes a:focus-visible { outline:3px solid var(--lab-link); outline-offset:2px; border-radius:4px; }
+  @media (min-width:800px) { .lab-notes { grid-template-columns:14rem minmax(0,1fr); } }
 </style>
 <nav class="lab-nav" aria-label="Collection"><a href="{{HOME}}"><span class="lab-arrow" aria-hidden="true">←</span><span><span class="lab-hidden">Back to </span><span class="lab-mark">Shared Lab</span></span></a></nav>

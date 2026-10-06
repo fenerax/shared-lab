@@ -23,6 +23,8 @@ Review the selected content, then commit and push to `main`. Pages deploys it to
 
 The hosted revenant page loads pinned D3 7.9.0 from jsDelivr. Inputs persist locally in each browser; this site has no shared database, account system or analytics.
 
+The collection's featured image is a crop of the rendered first revenant chart, stored at `docs/assets/revenants-preview.png`. Refresh that image when the chart's data or design changes. The collection template and the project chrome use the same light/dark palette and fonts; edit those templates rather than generated HTML.
+
 ## Preview locally
 
 ```powershell

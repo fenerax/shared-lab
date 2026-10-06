@@ -11,20 +11,33 @@
 </head>
 <body>
 <style>
-  body { max-width:1200px; margin-inline:auto; padding:clamp(8px,2vw,20px) clamp(16px,4vw,40px) clamp(40px,6vw,72px); color:light-dark(#1f2328,#ececed); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  .lab-nav,.lab-notes { --lab-link:light-dark(#1f5aa8,#9cc3ff); --lab-line:light-dark(#e4e5e8,#2f3135); --lab-muted:light-dark(#4f545b,#b3b6bb); }
-  .lab-nav { display:flex; align-items:center; margin:0 0 clamp(20px,3.5vw,36px); border-bottom:1px solid var(--lab-line); }
-  .lab-nav a { display:inline-flex; align-items:center; gap:.55em; min-height:48px; padding:0 4px; margin-inline:-4px; border-radius:4px; color:inherit; text-decoration:none; }
-  .lab-nav .lab-arrow { color:var(--lab-muted); }
-  .lab-nav .lab-mark { font-family:ui-serif,"Iowan Old Style",Charter,"Sitka Text","Palatino Linotype",Georgia,serif; font-size:18px; }
-  .lab-nav a:hover .lab-mark { color:var(--lab-link); text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:.2em; }
-  .lab-nav a:focus-visible,.lab-notes a:focus-visible { outline:2px solid var(--lab-link); outline-offset:2px; }
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Instrument+Sans:wght@400..700&display=swap");
+  html { color-scheme:light dark; background:light-dark(#f2ece0,#0e1312); }
+  body {
+    max-width:1280px; margin-inline:auto; padding:clamp(10px,2vw,20px) clamp(12px,3vw,40px) clamp(40px,6vw,72px);
+    color:light-dark(#1d1b17,#ece7dc); font:15px/1.6 "Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(60rem 30rem at 85% -6%,light-dark(rgb(11 107 93 / .12),rgb(110 231 207 / .08)),transparent 70%) no-repeat,light-dark(#f2ece0,#0e1312);
+  }
+  .lab-nav,.lab-notes {
+    --lab-ground:light-dark(#f2ece0,#0e1312); --lab-panel:light-dark(#fbf8f1,#151c1a); --lab-ink:light-dark(#1d1b17,#ece7dc); --lab-muted:light-dark(#4b453b,#b9b2a4);
+    --lab-line:light-dark(#d8cdb8,#2a3431); --lab-link:light-dark(#0b6b5d,#6ee7cf); --lab-ember:light-dark(#a63a16,#f4a261);
+    --lab-display:"Fraunces",ui-serif,"Iowan Old Style",Charter,Georgia,serif;
+  }
+  .lab-nav { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 clamp(12px,2vw,20px); padding:6px 6px 6px 8px; border:1px solid #2a3b37; border-radius:999px; background:#0c1211; color:#efe9dc; }
+  .lab-nav a { display:inline-flex; align-items:center; gap:10px; min-height:44px; padding:0 16px 0 6px; border-radius:999px; color:inherit; text-decoration:none; }
+  .lab-nav .lab-arrow { display:grid; place-items:center; width:32px; height:32px; border-radius:50%; background:#6ee7cf; color:#08201b; font-size:16px; line-height:1; transition:translate .18s; }
+  .lab-nav .lab-mark { font-family:var(--lab-display); font-size:18px; font-weight:600; letter-spacing:-.01em; }
+  .lab-nav a:hover { background:#15211e; }
+  .lab-nav a:hover .lab-arrow { translate:-3px 0; }
+  .lab-nav a:focus-visible { outline:3px solid #6ee7cf; outline-offset:2px; }
+  @media (prefers-reduced-motion:reduce) { .lab-nav .lab-arrow { transition:none; } }
   .lab-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
-  .lab-notes { display:grid; gap:10px 48px; margin-top:clamp(40px,6vw,64px); padding-top:20px; border-top:1px solid var(--lab-line); font-size:14px; line-height:1.65; color:var(--lab-muted); }
-  .lab-notes-title { margin:0; font-size:12px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:inherit; }
-  .lab-notes p { max-width:68ch; margin:0 0 12px; text-wrap:pretty; }
+  .lab-notes { display:grid; gap:14px 48px; margin-top:clamp(32px,5vw,56px); padding:clamp(20px,3vw,32px); border:1px solid var(--lab-line); border-radius:24px; background:var(--lab-panel); font-size:15px; line-height:1.65; color:var(--lab-muted); }
+  .lab-notes-title { margin:0; font-family:var(--lab-display); font-size:24px; font-weight:600; line-height:1.15; letter-spacing:-.01em; color:var(--lab-ink); }
+  .lab-notes p { max-width:70ch; margin:0 0 12px; text-wrap:pretty; }
   .lab-notes a { color:var(--lab-link); text-underline-offset:.2em; }
-  @media (min-width:800px) { .lab-notes { grid-template-columns:11rem minmax(0,1fr); } }
+  .lab-notes a:focus-visible { outline:3px solid var(--lab-link); outline-offset:2px; border-radius:4px; }
+  @media (min-width:800px) { .lab-notes { grid-template-columns:14rem minmax(0,1fr); } }
 </style>
 <nav class="lab-nav" aria-label="Collection"><a href="../../"><span class="lab-arrow" aria-hidden="true">←</span><span><span class="lab-hidden">Back to </span><span class="lab-mark">Shared Lab</span></span></a></nav>
 
@@ -1558,60 +1571,121 @@ html&gt;body{padding:0}&lt;/style&gt;
 &lt;/script&gt;
 &lt;div id=&quot;rev-grind-20261005&quot;&gt;
   &lt;style&gt;
-    #rev-grind-20261005 { --rev-ink-2:color-mix(in srgb,var(--foreground) 68%,transparent); --rev-rule:color-mix(in srgb,var(--foreground) 14%,transparent); --rev-serif:ui-serif,&quot;Iowan Old Style&quot;,Charter,&quot;Sitka Text&quot;,&quot;Palatino Linotype&quot;,Georgia,serif; position:relative; color:var(--foreground); }
+    @import url(&quot;https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=Instrument+Sans:wght@400..700&amp;display=swap&quot;);
+    html:has(#rev-grind-20261005),html:has(#rev-grind-20261005) body { background:#f2ece0; }
+    @media (prefers-color-scheme:dark) { html:has(#rev-grind-20261005),html:has(#rev-grind-20261005) body { background:#0e1312; } }
+    #rev-grind-20261005 {
+      color-scheme:light dark;
+      --rev-ground:light-dark(#f2ece0,#0e1312); --rev-panel:light-dark(#fbf8f1,#151c1a); --rev-panel-2:light-dark(#ebe3d3,#1b2422);
+      --rev-line:light-dark(#d8cdb8,#2a3431); --rev-line-strong:light-dark(#887a63,#647b73);
+      --rev-ink-2:light-dark(#4b453b,#b9b2a4); --rev-accent:light-dark(#0b6b5d,#6ee7cf); --rev-ember:light-dark(#a63a16,#f4a261);
+      --rev-night:#0c1211; --rev-night-2:#15211e; --rev-night-line:#2a3b37; --rev-night-ink:#efe9dc; --rev-night-ink-2:#aebdb7; --rev-ghost:#6ee7cf;
+      --rev-display:&quot;Fraunces&quot;,ui-serif,&quot;Iowan Old Style&quot;,Charter,Georgia,serif;
+      --rev-sans:&quot;Instrument Sans&quot;,system-ui,-apple-system,&quot;Segoe UI&quot;,Roboto,sans-serif;
+      --foreground:light-dark(#1d1b17,#ece7dc); --border:light-dark(#d3c7af,#33403c); --muted:light-dark(#ebe3d3,#1f2a27); --muted-foreground:light-dark(#5d564a,#9fb0aa); --ring:var(--rev-accent);
+      --viz-series-1:light-dark(#0b7a69,#5fe0c6); --viz-series-2:light-dark(#c2410c,#fb923c); --viz-series-3:light-dark(#a16207,#facc15);
+      --viz-series-4:light-dark(#b42318,#f87171); --viz-series-5:light-dark(#5b3fa8,#b4a0ff); --viz-series-6:light-dark(#1d5fc4,#6aa8ff);
+      position:relative; counter-reset:revsec; color:var(--foreground); background:var(--rev-ground); font-family:var(--rev-sans); font-size:15px; line-height:1.55;
+    }
     #rev-grind-20261005 .text-muted { color:var(--rev-ink-2); }
-    #rev-grind-20261005 .rev-head { display:grid; gap:6px; }
-    #rev-grind-20261005 h2 { padding-right:96px; font-family:var(--rev-serif); font-size:clamp(26px,3.4vw,34px); font-weight:500; line-height:1.15; letter-spacing:-.01em; text-wrap:balance; }
-    #rev-grind-20261005 .rev-meta { font-size:14px; line-height:1.5; }
-    #rev-grind-20261005 .rev-section { margin-top:clamp(36px,5vw,56px); padding-top:16px; border-top:1px solid var(--rev-rule); }
-    #rev-grind-20261005 .rev-section-title { font-family:var(--rev-serif); font-size:clamp(20px,2.4vw,24px); font-weight:500; line-height:1.25; text-wrap:balance; }
-    #rev-grind-20261005 .rev-section-note { display:block; margin-top:4px; max-width:72ch; }
-    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:auto auto auto; column-gap:clamp(28px,4vw,56px); row-gap:0; margin:24px 0 0; }
-    #rev-grind-20261005 .rev-pair + .rev-pair { margin-top:44px; }
+
+    #rev-grind-20261005 .rev-head { display:grid; gap:14px; }
+    #rev-grind-20261005 .rev-plate { position:relative; isolation:isolate; overflow:hidden; padding:clamp(22px,4.5vw,52px); border:1px solid var(--rev-night-line); border-radius:28px; background:linear-gradient(155deg,var(--rev-night-2),var(--rev-night) 62%); color:var(--rev-night-ink); }
+    #rev-grind-20261005 .rev-plate::before { content:&quot;&quot;; position:absolute; z-index:-1; right:-14rem; top:-16rem; width:40rem; height:40rem; border-radius:50%; background:repeating-radial-gradient(circle,rgb(110 231 207 / .10) 0 1px,transparent 1px 26px),radial-gradient(circle,rgb(110 231 207 / .20),transparent 62%); }
+    #rev-grind-20261005 .rev-plate::after { content:&quot;&quot;; position:absolute; z-index:-1; left:-8rem; bottom:-12rem; width:26rem; height:22rem; border-radius:50%; background:radial-gradient(circle,rgb(244 162 97 / .14),transparent 68%); }
+    #rev-grind-20261005 .rev-eyebrow { margin:0; padding-right:96px; font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#f4a261; }
+    #rev-grind-20261005 h2 { margin:10px 0 14px; padding-right:96px; font-family:var(--rev-display); font-optical-sizing:auto; font-size:clamp(40px,7.6vw,100px); font-weight:600; line-height:.95; letter-spacing:-.035em; color:var(--rev-night-ink); text-wrap:balance; }
+    #rev-grind-20261005 h2 .rev-h2-accent { color:var(--rev-ghost); font-style:italic; font-weight:450; }
+    #rev-grind-20261005 .rev-meta { max-width:60ch; font-size:15px; line-height:1.5; color:var(--rev-night-ink-2); }
+    #rev-grind-20261005 .rev-facts { display:flex; flex-wrap:wrap; gap:14px clamp(24px,4vw,48px); margin:clamp(22px,3.5vw,36px) 0 0; padding:18px 0 0; border-top:1px solid var(--rev-night-line); list-style:none; }
+    #rev-grind-20261005 .rev-facts li { display:grid; gap:2px; font-size:13px; line-height:1.3; color:var(--rev-night-ink-2); }
+    #rev-grind-20261005 .rev-facts b { font-family:var(--rev-display); font-size:clamp(28px,3.4vw,40px); font-weight:600; line-height:1; color:var(--rev-ghost); font-variant-numeric:tabular-nums; }
+    #rev-grind-20261005 .rev-players { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; padding:0 4px; }
+    #rev-grind-20261005 .rev-players .rev-legend { margin:0; }
+    #rev-grind-20261005 .rev-players-label { font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--rev-ink-2); }
+
+    #rev-grind-20261005 .rev-section { margin-top:clamp(44px,6vw,80px); counter-increment:revsec; }
+    #rev-grind-20261005 .rev-section-title { display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; margin:0; font-family:var(--rev-display); font-size:clamp(26px,3.6vw,42px); font-weight:600; line-height:1.08; letter-spacing:-.025em; text-wrap:balance; }
+    #rev-grind-20261005 .rev-section-title::before { content:counter(revsec,decimal-leading-zero); content:counter(revsec,decimal-leading-zero) / &quot;&quot;; padding:3px 12px; border:1.5px solid currentColor; border-radius:999px; font-family:var(--rev-sans); font-size:14px; font-weight:700; letter-spacing:.06em; line-height:1.4; color:var(--rev-ember); font-variant-numeric:tabular-nums; }
+    #rev-grind-20261005 .rev-section-note { display:block; margin-top:10px; max-width:72ch; font-size:14px; }
+
     #rev-grind-20261005 figure { margin:0; min-width:0; }
+    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:auto auto auto; column-gap:clamp(14px,2.2vw,24px); row-gap:0; margin:22px 0 0; }
+    #rev-grind-20261005 .rev-pair + .rev-pair { margin-top:clamp(14px,2.2vw,24px); }
+    #rev-grind-20261005 .rev-pair figure,#rev-grind-20261005 .rev-panel { padding:clamp(16px,2.4vw,26px); border:1px solid var(--rev-line); border-radius:22px; background:var(--rev-panel); box-shadow:0 18px 40px -32px light-dark(rgb(60 40 10 / .45),rgb(0 0 0 / .9)); }
     #rev-grind-20261005 .rev-pair figure { display:grid; grid-row:span 3; grid-template-rows:subgrid; row-gap:0; }
-    #rev-grind-20261005 .rev-pair figcaption { grid-row:1; margin-bottom:10px; }
-    #rev-grind-20261005 .rev-pair figure &gt; .rev-legend { grid-row:2; margin-bottom:2px; }
+    #rev-grind-20261005 .rev-pair figcaption { grid-row:1; margin-bottom:12px; }
+    #rev-grind-20261005 .rev-pair figure &gt; .rev-legend { grid-row:2; }
     #rev-grind-20261005 .rev-pair figure &gt; div:last-child { grid-row:3; }
-    #rev-grind-20261005 .rev-fig-title { font-size:16px; font-weight:600; line-height:1.3; text-wrap:balance; }
-    #rev-grind-20261005 .rev-caption { display:block; margin-top:3px; }
+    #rev-grind-20261005 .rev-fig-title { margin:0; font-family:var(--rev-display); font-size:clamp(19px,2vw,23px); font-weight:600; line-height:1.2; letter-spacing:-.01em; text-wrap:balance; }
+    #rev-grind-20261005 .rev-caption { display:block; margin-top:4px; font-size:13px; line-height:1.45; }
+
     #rev-grind-20261005 .rev-chart { width:100%; display:block; overflow:visible; }
-    #rev-grind-20261005 .rev-chart text { fill:var(--foreground); font-size:12px; font-weight:400; }
+    #rev-grind-20261005 .rev-chart text { fill:var(--foreground); font-family:var(--rev-sans); font-size:12px; font-weight:500; }
+    #rev-grind-20261005 .rev-chart .axis-title { fill:var(--rev-ink-2); font-weight:600; letter-spacing:.02em; }
     #rev-grind-20261005 .rev-chart .domain { stroke:var(--border); }
     #rev-grind-20261005 .rev-chart .tick line { stroke:var(--border); }
-    #rev-grind-20261005 .rev-chart .grid line { stroke:var(--border); opacity:.55; }
+    #rev-grind-20261005 .rev-chart .grid line { stroke:var(--border); opacity:.75; stroke-dasharray:2 4; }
     #rev-grind-20261005 .rev-chart .grid .domain { display:none; }
-    #rev-grind-20261005 .rev-chart rect[data-chart-frame] { fill:none; stroke:var(--border); stroke-width:1; }
-    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:2px 4px; margin:4px 0 4px -8px; }
-    #rev-grind-20261005 .rev-legend &gt; span { display:inline-flex; align-items:center; gap:8px; padding:6px 8px; }
-    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; border-radius:6px; min-height:32px; padding:6px 8px; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:8px; }
-    #rev-grind-20261005 .rev-legend button:hover { background:var(--muted); }
-    #rev-grind-20261005 .rev-legend button:focus-visible { outline:2px solid var(--ring); outline-offset:-2px; }
-    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] { color:var(--rev-ink-2); }
+    #rev-grind-20261005 .rev-chart rect[data-chart-frame] { fill:none; stroke:none; }
+    #rev-grind-20261005 .rev-chart rect[fill^=&quot;var(--viz&quot;] { rx:3px; }
+
+    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 10px; }
+    #rev-grind-20261005 .rev-legend:empty { margin:0; }
+    #rev-grind-20261005 .rev-legend &gt; span { display:inline-flex; align-items:center; gap:8px; padding:6px 4px; font-size:14px; }
+    #rev-grind-20261005 .rev-legend button { appearance:none; display:inline-flex; align-items:center; gap:10px; min-height:40px; padding:6px 16px 6px 12px; border:1px solid var(--rev-line-strong); border-radius:999px; background:var(--rev-panel); color:var(--foreground); font:inherit; font-size:14px; font-weight:600; }
+    #rev-grind-20261005 .rev-legend button:hover { border-color:var(--rev-accent); background:var(--muted); }
+    #rev-grind-20261005 .rev-legend button:focus-visible { outline:3px solid var(--ring); outline-offset:2px; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] { border-style:dashed; background:transparent; color:var(--rev-ink-2); font-weight:500; }
     #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] .rev-swatch { opacity:.35; }
     #rev-grind-20261005 .rev-legend button[aria-pressed=&quot;false&quot;] &gt; span:last-child { text-decoration:line-through; text-decoration-thickness:1px; }
-    #rev-grind-20261005 .rev-swatch { display:inline-block; width:16px; height:4px; border-radius:2px; background:var(--series); }
-    #rev-grind-20261005 .rev-controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:8px 32px; margin:16px 0 0; }
-    #rev-grind-20261005 .rev-target { flex:0 1 280px; max-width:280px; margin:0; }
-    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:6px 24px; margin:8px 0; }
-    #rev-grind-20261005 #rev-collection-summary { font-size:15px; }
-    #rev-grind-20261005 .rev-time { max-width:920px; }
-    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 24px; margin:20px 0 24px; }
-    #rev-grind-20261005 .rev-time-fields .form-label { margin:0; }
-    #rev-grind-20261005 .rev-tip { position:absolute; pointer-events:none; z-index:5; max-width:260px; }
+    #rev-grind-20261005 .rev-swatch { display:inline-block; flex:none; width:18px; height:6px; border-radius:3px; background:var(--series); }
+
+    #rev-grind-20261005 .form-label { display:grid; gap:6px; margin:0; font-size:14px; font-weight:600; color:var(--foreground); }
+    #rev-grind-20261005 .form-control,#rev-grind-20261005 .form-select { width:100%; min-height:46px; padding:10px 14px; border:1px solid var(--rev-line-strong); border-radius:12px; background-color:var(--rev-panel); color:var(--foreground); font:inherit; font-size:16px; font-weight:500; }
+    #rev-grind-20261005 .form-select { padding-right:40px; }
+    #rev-grind-20261005 .form-control::placeholder { color:var(--rev-ink-2); opacity:1; }
+    #rev-grind-20261005 .form-control:hover,#rev-grind-20261005 .form-select:hover { border-color:var(--rev-accent); }
+    #rev-grind-20261005 .form-control:focus-visible,#rev-grind-20261005 .form-select:focus-visible { outline:3px solid var(--ring); outline-offset:2px; border-color:var(--rev-accent); }
+
+    #rev-grind-20261005 .rev-controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:14px 28px; margin:22px 0 0; padding:clamp(16px,2.4vw,22px); border-radius:22px; background:var(--rev-panel-2); }
+    #rev-grind-20261005 .rev-target { flex:0 1 300px; max-width:300px; }
+    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:8px; margin:0; }
+    #rev-grind-20261005 .rev-inline &gt; span { display:inline-flex; align-items:center; min-height:40px; padding:6px 14px; border:1px solid var(--rev-line); border-radius:999px; background:var(--rev-panel); font-size:15px; font-weight:600; }
+    #rev-grind-20261005 .rev-time-panel { margin-top:22px; }
+    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px 20px; margin:0 0 22px; padding-bottom:22px; border-bottom:1px solid var(--rev-line); }
+    #rev-grind-20261005 #rev-time-summary { margin-top:12px; }
+
+    #rev-grind-20261005 .rev-tip { position:absolute; pointer-events:none; z-index:5; max-width:260px; padding:10px 14px; border:1px solid var(--rev-night-line); border-radius:12px; background:var(--rev-night); color:var(--rev-night-ink); font-size:13px; line-height:1.4; box-shadow:0 14px 30px -12px rgb(0 0 0 / .55); }
+    #rev-grind-20261005 .rev-tip &gt; div:first-child { font-weight:700; color:var(--rev-ghost); }
     #rev-grind-20261005 .rev-tip-row { display:flex; justify-content:space-between; gap:16px; margin-top:4px; }
     @media(max-width:680px) {
       #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); }
-      #rev-grind-20261005 .rev-pair figure + figure { margin-top:40px; }
+      #rev-grind-20261005 .rev-pair figure + figure { margin-top:14px; }
       #rev-grind-20261005 .rev-time-fields { grid-template-columns:minmax(0,1fr); }
       #rev-grind-20261005 .rev-target { flex-basis:100%; max-width:none; }
+    }
+    @media(max-width:420px) {
+      #rev-grind-20261005 .rev-eyebrow,#rev-grind-20261005 h2 { padding-right:56px; }
+      #rev-grind-20261005 .rev-plate { border-radius:22px; }
     }
     @media(pointer:coarse) { #rev-grind-20261005 .rev-legend button { min-height:44px; } }
   &lt;/style&gt;
   &lt;header class=&quot;rev-head&quot;&gt;
-    &lt;h2&gt;Revenant farming&lt;/h2&gt;
-    &lt;div class=&quot;rev-meta text-small text-muted&quot;&gt;Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items&lt;/div&gt;
-    &lt;div id=&quot;rev-player-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Players&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;rev-plate&quot;&gt;
+      &lt;p class=&quot;rev-eyebrow&quot;&gt;RuneScape 3 · free-to-play revenants&lt;/p&gt;
+      &lt;h2&gt;Revenant &lt;span class=&quot;rev-h2-accent&quot;&gt;farming&lt;/span&gt;&lt;/h2&gt;
+      &lt;div class=&quot;rev-meta text-small&quot;&gt;Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items&lt;/div&gt;
+      &lt;ul class=&quot;rev-facts&quot;&gt;
+        &lt;li&gt;&lt;b&gt;16&lt;/b&gt; revenants compared&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;4&lt;/b&gt; corrupted dragon items&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;9&lt;/b&gt; charts on this page&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;rev-players&quot;&gt;
+      &lt;span class=&quot;rev-players-label&quot;&gt;Players&lt;/span&gt;
+      &lt;div id=&quot;rev-player-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Players&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
   &lt;/header&gt;
   &lt;section class=&quot;rev-section&quot; aria-labelledby=&quot;rev-sec-compare&quot;&gt;
     &lt;h3 id=&quot;rev-sec-compare&quot; class=&quot;rev-section-title&quot;&gt;Comparing revenants and gear&lt;/h3&gt;
@@ -1673,14 +1747,16 @@ html&gt;body{padding:0}&lt;/style&gt;
   &lt;section class=&quot;rev-section rev-time&quot; aria-labelledby=&quot;rev-sec-time&quot;&gt;
     &lt;h3 id=&quot;rev-sec-time&quot; class=&quot;rev-section-title&quot;&gt;Time at your measured kill rates&lt;/h3&gt;
     &lt;span class=&quot;rev-section-note text-small text-muted&quot;&gt;Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements&lt;/span&gt;
-    &lt;div class=&quot;rev-time-fields&quot;&gt;
-      &lt;label class=&quot;form-label&quot;&gt;Goblin 16: kills/hour&lt;input id=&quot;rev-rate-gob16&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
-      &lt;label class=&quot;form-label&quot;&gt;Demon: kills/hour&lt;input id=&quot;rev-rate-demon&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
-      &lt;label class=&quot;form-label&quot;&gt;Dark beast: kills/hour&lt;input id=&quot;rev-rate-dark&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+    &lt;div class=&quot;rev-panel rev-time-panel&quot;&gt;
+      &lt;div class=&quot;rev-time-fields&quot;&gt;
+        &lt;label class=&quot;form-label&quot;&gt;Goblin 16: kills/hour&lt;input id=&quot;rev-rate-gob16&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+        &lt;label class=&quot;form-label&quot;&gt;Demon: kills/hour&lt;input id=&quot;rev-rate-demon&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+        &lt;label class=&quot;form-label&quot;&gt;Dark beast: kills/hour&lt;input id=&quot;rev-rate-dark&quot; class=&quot;form-control&quot; type=&quot;number&quot; min=&quot;0.01&quot; step=&quot;any&quot; inputmode=&quot;decimal&quot; placeholder=&quot;Your measured rate&quot;&gt;&lt;/label&gt;
+      &lt;/div&gt;
+      &lt;div id=&quot;rev-hours-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Time estimates&quot;&gt;&lt;/div&gt;
+      &lt;div id=&quot;rev-hours&quot;&gt;&lt;/div&gt;
+      &lt;div id=&quot;rev-time-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
     &lt;/div&gt;
-    &lt;div id=&quot;rev-hours-legend&quot; class=&quot;rev-legend&quot; aria-label=&quot;Time estimates&quot;&gt;&lt;/div&gt;
-    &lt;div id=&quot;rev-hours&quot;&gt;&lt;/div&gt;
-    &lt;div id=&quot;rev-time-summary&quot; class=&quot;rev-inline tabular-nums&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
   &lt;/section&gt;
   &lt;div id=&quot;rev-tip&quot; class=&quot;tooltip rev-tip&quot; role=&quot;tooltip&quot; hidden&gt;&lt;/div&gt;
   &lt;div id=&quot;rev-error&quot; class=&quot;text-destructive&quot; role=&quot;alert&quot; hidden&gt;&lt;/div&gt;
@@ -2728,6 +2804,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     <p>Damage work is an idealized comparison, not a measured kill rate. It excludes healing, overkill, ability rotations, respawn, travel and banking. Enter measured kills per hour in the time calculator to compare your actual results.</p>
     <p>Research snapshot: 5 October 2026. Sources: <a href="https://runescape.wiki/w/Revenants">RuneScape Wiki: revenants</a>, <a href="https://runescape.wiki/w/Ghost_hunter_equipment">Ghost hunter equipment</a> and <a href="https://runescape.wiki/w/Hit_chance">hit chance</a>.</p>
     <p>Values you enter are saved only in this browser. They do not update anyone else's inputs.</p>
+    <p><a href="../../">← Back to all projects in Shared Lab</a></p>
   </div>
 </footer>
 
