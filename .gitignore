@@ -1,0 +1,7 @@
+out/
+.playwright-cli/
+__pycache__/
+*.pyc
+node_modules/
+.wrangler/
+.env*

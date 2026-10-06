@@ -1,0 +1,346 @@
+<div id="rev-grind-20261005">
+  <style>
+    #rev-grind-20261005 { position:relative; color:var(--foreground); }
+    #rev-grind-20261005 .rev-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; margin:24px 0 32px; }
+    #rev-grind-20261005 figure { margin:0; min-width:0; }
+    #rev-grind-20261005 figcaption { margin-bottom:8px; }
+    #rev-grind-20261005 .rev-caption { display:block; margin-top:4px; }
+    #rev-grind-20261005 .rev-chart { width:100%; display:block; overflow:visible; }
+    #rev-grind-20261005 .rev-chart text { fill:var(--foreground); font-size:12px; font-weight:400; }
+    #rev-grind-20261005 .rev-chart .domain { stroke:var(--border); }
+    #rev-grind-20261005 .rev-chart .tick line { stroke:var(--border); }
+    #rev-grind-20261005 .rev-chart .grid line { stroke:var(--border); opacity:.55; }
+    #rev-grind-20261005 .rev-chart .grid .domain { display:none; }
+    #rev-grind-20261005 .rev-chart rect[data-chart-frame] { fill:none; stroke:var(--border); stroke-width:1; }
+    #rev-grind-20261005 .rev-legend { display:flex; flex-wrap:wrap; gap:8px 16px; margin:6px 0; }
+    #rev-grind-20261005 .rev-legend button { appearance:none; background:transparent; border:0; padding:2px 0; color:var(--foreground); font:inherit; display:inline-flex; align-items:center; gap:6px; }
+    #rev-grind-20261005 .rev-legend button[aria-pressed="false"] { opacity:.45; }
+    #rev-grind-20261005 .rev-swatch { display:inline-block; width:14px; height:3px; background:var(--series); }
+    #rev-grind-20261005 .rev-inline { display:flex; flex-wrap:wrap; gap:8px 20px; margin:8px 0; }
+    #rev-grind-20261005 .rev-time-fields { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:12px 0 18px; }
+    #rev-grind-20261005 .rev-tip { position:absolute; pointer-events:none; z-index:5; max-width:260px; }
+    #rev-grind-20261005 .rev-tip-row { display:flex; justify-content:space-between; gap:16px; margin-top:4px; }
+    #rev-grind-20261005 .rev-target { max-width:280px; }
+    #rev-grind-20261005 h2 { padding-right:96px; }
+    @media(max-width:680px) {
+      #rev-grind-20261005 .rev-pair { grid-template-columns:minmax(0,1fr); gap:28px; }
+      #rev-grind-20261005 .rev-time-fields { grid-template-columns:minmax(0,1fr); }
+    }
+    @media(pointer:coarse) { #rev-grind-20261005 .rev-legend button { min-height:44px; } }
+  </style>
+  <h2>Revenant farming</h2>
+  <div class="text-small text-muted">Rune 2H +3 · unboosted Attack 63 / 66 · one shared set of four items</div>
+  <div id="rev-player-legend" class="rev-legend" aria-label="Players"></div>
+  <div class="rev-pair">
+    <figure>
+      <figcaption><h3>Average kills for all four</h3><span class="rev-caption text-small text-muted">Helm · chainbody · platelegs · spear</span></figcaption>
+      <div id="rev-kills"></div>
+    </figure>
+    <figure>
+      <figcaption><h3>Monster health</h3><span class="rev-caption text-small text-muted">Before revenant healing</span></figcaption>
+      <div id="rev-health"></div>
+    </figure>
+  </div>
+  <div class="rev-pair">
+    <figure>
+      <figcaption><h3>Damage that gets through</h3><span class="rev-caption text-small text-muted">Bar: Maëlle · diamond: Ryan</span></figcaption>
+      <div id="rev-damage"></div>
+    </figure>
+    <figure>
+      <figcaption><h3>Relative damage work</h3><span class="rev-caption text-small text-muted">Idealized model · goblin 16 = 1× · lower is better</span><span class="rev-caption text-small text-muted">Excludes healing, overkill, rotations, respawn, travel and banking</span></figcaption>
+      <div id="rev-work"></div>
+    </figure>
+  </div>
+  <div class="rev-pair">
+    <figure>
+      <figcaption><h3>Your current weapon alternatives</h3><span class="rev-caption text-small text-muted">Current levels · before armour/accessory bonuses · rune +3 = 100%</span></figcaption>
+      <div class="rev-legend" aria-label="Weapon comparison targets">
+        <span><span class="rev-swatch" style="--series:var(--viz-series-3)"></span> Goblin 16</span>
+        <span><span class="rev-swatch" style="--series:var(--viz-series-5)"></span> Dark beast</span>
+      </div>
+      <div id="rev-weapons"></div>
+    </figure>
+    <figure>
+      <figcaption><h3>Ghost Hunter damage bonus</h3><span class="rev-caption text-small text-muted">Goggles + legs + backpack = three pieces</span></figcaption>
+      <div id="rev-ghost"></div>
+    </figure>
+  </div>
+  <hr>
+  <h3>Collecting four different items</h3>
+  <label class="form-label rev-target">Target revenant
+    <select id="rev-target" class="form-select"></select>
+  </label>
+  <div id="rev-collection-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
+  <div class="rev-pair">
+    <figure>
+      <figcaption><h3>Waiting for each new item</h3><span id="rev-stage-caption" class="rev-caption text-small text-muted"></span></figcaption>
+      <div id="rev-stages"></div>
+    </figure>
+    <figure>
+      <figcaption><h3>Chance of having all four</h3><span class="rev-caption text-small text-muted">Kills · exact probability model</span></figcaption>
+      <div id="rev-cdf-legend" class="rev-legend" aria-label="Collection probability series"></div>
+      <div id="rev-cdf"></div>
+    </figure>
+  </div>
+  <hr>
+  <h3>Time at your measured kill rates</h3>
+  <div class="text-small text-muted">Steady-rate estimate · blank = unknown · include respawn, travel and banking in your measurements</div>
+  <div class="rev-time-fields">
+    <label class="form-label">Goblin 16: kills/hour<input id="rev-rate-gob16" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+    <label class="form-label">Demon: kills/hour<input id="rev-rate-demon" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+    <label class="form-label">Dark beast: kills/hour<input id="rev-rate-dark" class="form-control" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Your measured rate"></label>
+  </div>
+  <div id="rev-hours-legend" class="rev-legend" aria-label="Time estimates"></div>
+  <div id="rev-hours"></div>
+  <div id="rev-time-summary" class="rev-inline tabular-nums" aria-live="polite"></div>
+  <div id="rev-tip" class="tooltip rev-tip" role="tooltip" hidden></div>
+  <div id="rev-error" class="text-destructive" role="alert" hidden></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+(() => {
+  const root = document.getElementById('rev-grind-20261005');
+  const q = selector => root.querySelector(selector);
+  if (!window.d3) { q('#rev-error').hidden=false; q('#rev-error').textContent='Charts could not load.'; return; }
+  const f = x => Math.floor(x*x*x/1250+4*x+40);
+  const fmt = new Intl.NumberFormat('en-CA', {maximumFractionDigits:0});
+  const one = new Intl.NumberFormat('en-CA', {maximumFractionDigits:1});
+  const compact = n => n >= 1000 ? one.format(n/1000)+'k' : one.format(n);
+  const color = i => 'var(--viz-series-'+i+')';
+  const coarse=window.matchMedia('(pointer:coarse)').matches;
+  const geometry=new Map();
+  function moving(node,key,attrs,width) {
+    const old=geometry.get(key);
+    const animate=old && old.width===width && !window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    geometry.set(key,{width,attrs});
+    for(const [name,value] of Object.entries(attrs)) node.attr(name,animate?old.attrs[name]:value);
+    if(animate){const transition=node.transition().duration(220).ease(d3.easeCubicOut);for(const [name,value] of Object.entries(attrs))transition.attr(name,value);}
+    return node;
+  }
+  const monsters = [
+    ['imp','Imp',14,1500,10,202], ['gob16','Goblin 16',16,1800,12,223],
+    ['gob19','Goblin 19',19,2100,14,245], ['gob22','Goblin 22',22,2400,16,268],
+    ['gob28','Goblin 28',28,3000,20,316], ['ice','Icefiend',37,4050,27,409],
+    ['pyre','Pyrefiend',40,4350,29,439], ['hob','Hobgoblin',44,4800,32,486],
+    ['vamp','Vampyre',47,5100,34,519], ['were','Werewolf',53,5700,38,590],
+    ['cyclops','Cyclops',60,6450,43,689], ['hell','Hellhound',70,7050,50,850],
+    ['demon','Demon',84,7500,60,1132], ['ork','Ork',98,8250,70,1486],
+    ['dark','Dark beast',112,8850,80,1924], ['knight','Knight',119,9750,85,2178]
+  ].map(([id,name,level,hp,def,armour]) => {
+    const p = 2/Math.floor(60000/Math.floor(Math.sqrt(level)));
+    const total = armour+f(def);
+    const dp = Math.min(1,40*1420/total/100);
+    const ryan = Math.min(1,40*1461/total/100);
+    return {id,name,level,hp,def,armour,total,p,dp,ryan,mean:25/12/p,
+      work:hp/(dp*p)/13500000,ryanWork:hp/(ryan*p)/13500000};
+  });
+  const byId = id => monsters.find(m => m.id===id);
+  const cdf = (n,p) => Math.max(0,Math.min(1,1-4*Math.exp(n*Math.log1p(-p))+6*Math.exp(n*Math.log1p(-2*p))-4*Math.exp(n*Math.log1p(-3*p))+Math.exp(n*Math.log1p(-4*p))));
+  const quantile = (p,prob) => {
+    let hi=Math.ceil(1/p),lo=0;
+    while(cdf(hi,p)<prob) hi*=2;
+    while(lo<hi){const mid=Math.floor((lo+hi)/2); if(cdf(mid,p)>=prob) hi=mid; else lo=mid+1;}
+    return lo;
+  };
+  const state = {target:'dark',rates:{gob16:'',demon:'',dark:''},players:{maelle:true,ryan:true},cdfHidden:[],timeHidden:[]};
+  function hydrate(saved) {
+    const s=saved?.privateContent || saved?.modelContent || saved;
+    if(!s || typeof s!=='object') return;
+    if(byId(s.target)) state.target=s.target;
+    for(const id of ['gob16','demon','dark']) if(s.rates && (s.rates[id]==='' || (Number.isFinite(+s.rates[id]) && +s.rates[id]>0))) state.rates[id]=String(s.rates[id]);
+    if(s.players){for(const id of ['maelle','ryan']) if(typeof s.players[id]==='boolean') state.players[id]=s.players[id];}
+    if(Array.isArray(s.cdfHidden)) state.cdfHidden=s.cdfHidden.filter(x=>typeof x==='string');
+    if(Array.isArray(s.timeHidden)) state.timeHidden=s.timeHidden.filter(x=>['mean','q90'].includes(x));
+  }
+  hydrate(window.openai?.widgetState);
+  function save() {
+    if(window.openai?.setWidgetState) window.openai.setWidgetState({modelContent:{target:state.target,rates:state.rates},privateContent:state}).catch(()=>{});
+  }
+  let pinned=false;
+  const tooltip=q('#rev-tip');
+  function tip(event,heading,rows) {
+    tooltip.replaceChildren();
+    const title=document.createElement('div'); title.textContent=heading; tooltip.append(title);
+    for(const [label,value] of rows){const row=document.createElement('div');row.className='rev-tip-row tabular-nums';const a=document.createElement('span'),b=document.createElement('span');a.textContent=label;b.textContent=value;row.append(a,b);tooltip.append(row);}
+    tooltip.hidden=false;
+    const box=root.getBoundingClientRect();
+    const tw=tooltip.getBoundingClientRect().width;
+    const th=tooltip.getBoundingClientRect().height;
+    tooltip.style.left=Math.max(4,Math.min(event.clientX-box.left+12,box.width-tw-4))+'px';
+    tooltip.style.top=Math.max(4,Math.min(event.clientY-box.top+12,root.offsetHeight-th-4))+'px';
+  }
+  function hideTip(){if(!pinned) tooltip.hidden=true;}
+  function attachHit(hit,heading,rows) {
+    hit.attr('data-chart-hit','').attr('fill','transparent').attr('class','cursor-interaction')
+      .on('pointermove',e=>{if(!pinned)tip(e,heading,rows());})
+      .on('pointerleave',hideTip)
+      .on('click',e=>{pinned=!pinned;tip(e,heading,rows());});
+  }
+  root.addEventListener('pointerdown',e=>{if(!e.target.closest('[data-chart-hit]')){pinned=false;tooltip.hidden=true;}});
+  function rowDetails(m) {
+    return [['Health',fmt.format(m.hp)],['Each target item','1 / '+one.format(1/m.p)],['Average, all four',fmt.format(m.mean)+' kills'],
+      ...(state.players.maelle?[['Maëlle damage potential',one.format(m.dp*100)+'%']]:[]),
+      ...(state.players.ryan?[['Ryan damage potential',one.format(m.ryan*100)+'%']]:[])];
+  }
+  function svgBase(containerId,height,title,desc,left=118,right=50) {
+    const container=q(containerId),width=Math.max(1,container.getBoundingClientRect().width);
+    container.replaceChildren();
+    const svg=d3.select(container).append('svg').attr('class','rev-chart').attr('viewBox',`0 0 ${width} ${height}`).attr('role','img').attr('aria-label',title);
+    svg.append('title').text(title);svg.append('desc').text(desc);
+    return {svg,width,height,left:Math.min(left,width*.39),right};
+  }
+  function axes(b,x,labels,rowHeight,top=20,xTitle='',yTitle='Revenant',tickFormat=compact) {
+    const bottom=top+labels.length*rowHeight;
+    const y=d3.scaleBand().domain(labels).range([top,bottom]).paddingInner(.3);
+    b.svg.append('rect').attr('data-chart-frame','').attr('x',b.left-4).attr('y',top-5).attr('width',b.width-b.left-4).attr('height',bottom-top+10);
+    const count=b.width<380?3:4;
+    b.svg.append('g').attr('class','grid').attr('transform',`translate(0,${bottom+5})`).call(d3.axisBottom(x).ticks(count).tickSize(-(bottom-top+10)).tickFormat('')).selectAll('text').remove();
+    b.svg.append('g').attr('transform',`translate(0,${bottom+12})`).call(d3.axisBottom(x).ticks(count).tickFormat(tickFormat));
+    b.svg.append('g').attr('transform',`translate(${b.left-7},0)`).call(d3.axisLeft(y).tickSize(0)).select('.domain').remove();
+    b.svg.append('text').attr('class','axis-title').attr('data-axis','x').attr('x',(b.left+b.width-b.right)/2).attr('y',b.height-7).attr('text-anchor','middle').text(xTitle);
+    b.svg.append('text').attr('class','axis-title').attr('data-axis','y').attr('transform',`translate(12,${(top+bottom)/2}) rotate(-90)`).attr('text-anchor','middle').text(yTitle);
+    return {y,bottom};
+  }
+  function checkLabels(svg) {
+    const nodes=svg.selectAll('.tick text,.axis-title,.value-label,.direct-label').nodes();
+    const accepted=[];
+    for(const node of nodes){const box=node.getBoundingClientRect(); const collision=accepted.some(a=>box.left<a.right+4&&box.right+4>a.left&&box.top<a.bottom+4&&box.bottom+4>a.top);
+      if(collision && node.classList.contains('direct-label')) node.remove(); else accepted.push(box);}
+  }
+  function drawMonsterBars(id,field,title,units,valueFormat,paired=false) {
+    const rowHeight=coarse?44:32,height=20+rowHeight*monsters.length+62;
+    const b=svgBase(id,height,title,'Sixteen free-to-play revenants. '+units,118,paired?78:48);
+    const values=monsters.flatMap(m=>paired?[m[field],m[field==='dp'?'ryan':'ryanWork']]:[m[field]]);
+    const max=d3.extent(values.concat(0))[1];
+    const x=d3.scaleLinear().domain([0,max*1.06]).range([b.left+2,b.width-b.right]);
+    const {y}=axes(b,x,monsters.map(m=>m.name),rowHeight,20,units,'Revenant',field==='dp'?d3.format('.0%'):compact);
+    for(const m of monsters){const cy=y(m.name)+y.bandwidth()/2;
+      if(!paired || state.players.maelle) b.svg.append('rect').attr('x',x(0)).attr('y',cy-6).attr('width',Math.max(0,x(m[field])-x(0))).attr('height',12).attr('fill',color(1));
+      if(paired && state.players.ryan){const v=m[field==='dp'?'ryan':'ryanWork']; b.svg.append('path').attr('d',d3.symbol().type(d3.symbolDiamond).size(35)()).attr('transform',`translate(${x(v)},${cy})`).attr('fill',color(2));}
+      const label=paired?(state.players.maelle?valueFormat(m[field]):'')+(state.players.maelle&&state.players.ryan?' / ':'')+(state.players.ryan?valueFormat(m[field==='dp'?'ryan':'ryanWork']):''):valueFormat(m[field]);
+      b.svg.append('text').attr('class','value-label tabular-nums').attr('x',Math.max(x(m[field]),paired?x(m[field==='dp'?'ryan':'ryanWork']):0)+5).attr('y',cy+4).text(label);
+      const hit=b.svg.append('rect').attr('x',b.left-4).attr('y',cy-rowHeight/2).attr('width',b.width-b.left).attr('height',rowHeight);
+      attachHit(hit,m.name,()=>field==='work'?[...rowDetails(m),...(state.players.maelle?[['Maëlle relative work',one.format(m.work)+'×']]:[]),...(state.players.ryan?[['Ryan relative work',one.format(m.ryanWork)+'×']]:[])]:rowDetails(m));
+    }
+    checkLabels(b.svg);
+  }
+  function legend(containerId,items,onChange) {
+    const container=q(containerId);container.replaceChildren();
+    for(const item of items){const button=document.createElement('button');button.type='button';button.className='cursor-interaction';button.setAttribute('aria-pressed',String(item.visible));
+      const swatch=document.createElement('span');swatch.className='rev-swatch';swatch.style.setProperty('--series',color(item.color));
+      const label=document.createElement('span');label.textContent=item.name;button.append(swatch,label);
+      button.addEventListener('click',()=>onChange(item));container.append(button);}
+  }
+  function playerLegend(){legend('#rev-player-legend',[{id:'maelle',name:'Maëlle · Attack 63',color:1,visible:state.players.maelle},{id:'ryan',name:'Ryan · Attack 66',color:2,visible:state.players.ryan}],item=>{state.players[item.id]=!state.players[item.id];save();drawPlayers();playerLegend();});}
+  function drawPlayers(){drawMonsterBars('#rev-damage','dp','Damage potential','Damage potential (%)',v=>Math.round(v*100)+'%',true);drawMonsterBars('#rev-work','work','Relative idealized damage work','Relative work (goblin 16 = 1×)',v=>one.format(v)+'×',true);}
+  function simpleBars(id,data,title,units,yTitle,format) {
+    const rowHeight=coarse?46:42,height=20+rowHeight*data.length+62;
+    const b=svgBase(id,height,title,title,110,52);
+    const max=d3.extent(data.map(d=>d.value).concat(0))[1];
+    const x=d3.scaleLinear().domain([0,max*1.08]).range([b.left+2,b.width-b.right]);
+    const {y}=axes(b,x,data.map(d=>d.name),rowHeight,20,units,yTitle);
+    for(const d of data){const cy=y(d.name)+y.bandwidth()/2;moving(b.svg.append('rect').attr('fill',color(1)),id+d.name,{x:x(0),y:cy-8,width:x(d.value)-x(0),height:16},b.width);b.svg.append('text').attr('class','value-label tabular-nums').attr('x',x(d.value)+5).attr('y',cy+4).text(format(d.value));const hit=b.svg.append('rect').attr('x',b.left-4).attr('y',cy-rowHeight/2).attr('width',b.width-b.left).attr('height',rowHeight);attachHit(hit,d.name,()=>d.details||[[units,format(d.value)]]);}
+    checkLabels(b.svg);
+  }
+  function drawWeapons() {
+    const dark=byId('dark');
+    const weapons=[{name:'Rune 2H +3',ad:1030,accuracy:1420,level:'Attack / Strength 63'},
+      {name:'Acadia / rune',ad:952,accuracy:1231,level:'Ranged 54 · Acadia bow / rune crossbow · tier-50 ammo'},
+      {name:'Mystic pair',ad:957,accuracy:1243,level:'Magic 55 · mystic wand + orb · Earth Blast'}];
+    const base=1030*dark.dp;
+    const b=svgBase('#rev-weapons',280,'Current weapon comparison','Rune 2H +3, Acadia bow or rune crossbow, and mystic wand plus orb. Ability damage after defence at current levels, before armour and accessory bonuses. This is not a rotation or DPS simulation.',126,48);
+    const values=weapons.flatMap(w=>[w.ad/1030*100,w.ad*Math.min(1,.4*w.accuracy/dark.total)/base*100]);
+    const x=d3.scaleLinear().domain([0,d3.extent(values.concat(0))[1]*1.08]).range([b.left+2,b.width-b.right]);
+    const {y}=axes(b,x,weapons.map(w=>w.name),62,20,'Relative damage (%)','Weapon');
+    for(const w of weapons){const cy=y(w.name)+y.bandwidth()/2;const vals=[w.ad/1030*100,w.ad*Math.min(1,.4*w.accuracy/dark.total)/base*100];
+      vals.forEach((v,i)=>{const yy=cy+(i===0?-11:11);b.svg.append('rect').attr('x',x(0)).attr('y',yy-6).attr('width',x(v)-x(0)).attr('height',12).attr('fill',color(i===0?3:5));b.svg.append('text').attr('class','value-label tabular-nums').attr('x',x(v)+5).attr('y',yy+4).text(Math.round(v)+'%');});
+      attachHit(b.svg.append('rect').attr('x',b.left-4).attr('y',cy-26).attr('width',b.width-b.left).attr('height',52),w.name,()=>[['Levels',w.level],['Ability damage',fmt.format(w.ad)],['Accuracy',fmt.format(w.accuracy)],['Goblin 16',one.format(vals[0])+'% of rune +3'],['Dark beast',one.format(vals[1])+'% of rune +3']]);
+    }
+    checkLabels(b.svg);
+  }
+  function curveSeries() {
+    const list=[{m:byId('gob16'),color:3},{m:byId('demon'),color:4},{m:byId('dark'),color:5}];
+    if(!list.some(s=>s.m.id===state.target))list.push({m:byId(state.target),color:6});
+    return list;
+  }
+  function drawCollection() {
+    const m=byId(state.target);q('#rev-target').value=m.id;
+    q('#rev-collection-summary').replaceChildren();
+    for(const text of ['Average '+fmt.format(m.mean)+' kills','Median '+fmt.format(quantile(m.p,.5)),'90% finish by '+fmt.format(quantile(m.p,.9))]){const span=document.createElement('span');span.textContent=text;q('#rev-collection-summary').append(span);}
+    q('#rev-stage-caption').textContent=m.name+' · each item 1 / '+one.format(1/m.p);
+    simpleBars('#rev-stages',[4,3,2,1].map((missing,i)=>({name:['First','Second','Third','Last'][i],value:1/(missing*m.p),details:[['Items still missing',String(missing)],['Useful-drop chance',one.format(missing*m.p*100)+'%'],['Average additional kills',fmt.format(1/(missing*m.p))],['Share of total average',[12,16,24,48][i]+'%']]})),'Waiting for each different item','Average additional kills','New item',v=>fmt.format(v));
+    const series=curveSeries();legend('#rev-cdf-legend',series.map(s=>({id:s.m.id,name:s.m.name,color:s.color,visible:!state.cdfHidden.includes(s.m.id)})),item=>{state.cdfHidden=state.cdfHidden.includes(item.id)?state.cdfHidden.filter(id=>id!==item.id):state.cdfHidden.concat(item.id);save();drawCollection();});
+    drawCDF(series);
+  }
+  function drawCDF(all) {
+    const visible=all.filter(s=>!state.cdfHidden.includes(s.m.id));
+    const b=svgBase('#rev-cdf',300,'Probability of owning all four items','Exact four-distinct-item completion probability. Hover or tap for probability at a chosen kill count.',68,18);
+    const top=18,bottom=242;
+    const max=d3.extent((visible.length?visible:all).map(s=>quantile(s.m.p,.95)).concat(0))[1];
+    const x=d3.scaleLinear().domain([0,max]).range([b.left+3,b.width-20]);
+    const y=d3.scaleLinear().domain(d3.extent([0,1])).range([bottom,top]);
+    b.svg.append('rect').attr('data-chart-frame','').attr('x',b.left).attr('y',top).attr('width',b.width-b.left-17).attr('height',bottom-top);
+    b.svg.append('g').attr('class','grid').attr('transform',`translate(${b.left},0)`).call(d3.axisLeft(y).ticks(4).tickSize(-(b.width-b.left-17)).tickFormat(''));
+    b.svg.append('g').attr('transform',`translate(${b.left},0)`).call(d3.axisLeft(y).ticks(4).tickFormat(d3.format('.0%')));
+    b.svg.append('g').attr('transform',`translate(0,${bottom})`).call(d3.axisBottom(x).ticks(b.width<380?3:4).tickFormat(compact));
+    b.svg.append('text').attr('class','axis-title').attr('data-axis','x').attr('x',(b.left+b.width-20)/2).attr('y',293).attr('text-anchor','middle').text('Kills');
+    b.svg.append('text').attr('class','axis-title').attr('data-axis','y').attr('transform',`translate(13,${(top+bottom)/2}) rotate(-90)`).attr('text-anchor','middle').text('Chance of all four (%)');
+    b.svg.append('line').attr('x1',b.left).attr('x2',b.width-17).attr('y1',y(.9)).attr('y2',y(.9)).attr('stroke','var(--border)').attr('stroke-dasharray','3 4');
+    const line=d3.line().x(d=>x(d.x)).y(d=>y(d.y));
+    const paths=new Map();
+    for(const s of visible){const vals=d3.range(0,301).map(i=>({x:max*i/300,y:cdf(max*i/300,s.m.p)}));moving(b.svg.append('path').attr('fill','none').attr('stroke',color(s.color)).attr('stroke-width',2),'cdf-'+s.m.id,{d:line(vals)},b.width);paths.set(s.m.id,vals);}
+    const guide=b.svg.append('line').attr('data-chart-hover-guide','').attr('y1',top).attr('y2',bottom).attr('stroke','var(--muted-foreground)').attr('stroke-width',1).attr('pointer-events','none').attr('visibility','hidden');
+    const markers=visible.map(s=>({s,node:b.svg.append('circle').attr('data-chart-hover-marker',s.m.id).attr('r',4).attr('fill',color(s.color)).attr('pointer-events','none').attr('visibility','hidden')}));
+    function hover(event){const [px]=d3.pointer(event,b.svg.node());const xx=Math.max(x(0),Math.min(x(max),px));const n=x.invert(xx);
+      guide.attr('x1',xx).attr('x2',xx).attr('visibility','visible');
+      for(const {s,node} of markers){const vals=paths.get(s.m.id);const nearest=d3.bisector(d=>d.x).center(vals,n);const a=vals[Math.max(0,nearest-1)],z=vals[Math.min(vals.length-1,nearest+1)];const t=z.x===a.x?0:(n-a.x)/(z.x-a.x);const yy=a.y+(z.y-a.y)*t;node.attr('cx',xx).attr('cy',y(yy)).attr('visibility','visible');}
+      const wholeKills=Math.round(n);
+      tip(event,fmt.format(wholeKills)+' kills',visible.map(s=>[s.m.name,one.format(cdf(wholeKills,s.m.p)*100)+'%']));
+    }
+    b.svg.append('rect').attr('data-chart-hit','').attr('data-chart-hover-overlay','cross-series').attr('x',b.left).attr('y',top).attr('width',b.width-b.left-17).attr('height',bottom-top).attr('fill','transparent').attr('class','cursor-interaction')
+      .on('pointermove',e=>{if(!pinned)hover(e);}).on('pointerleave',()=>{hideTip();if(!pinned){guide.attr('visibility','hidden');markers.forEach(({node})=>node.attr('visibility','hidden'));}}).on('click',e=>{pinned=!pinned;hover(e);});
+    checkLabels(b.svg);
+  }
+  function drawHours() {
+    const data=['gob16','demon','dark'].map(id=>{const m=byId(id),rate=+state.rates[id];return {m,rate:rate>0&&Number.isFinite(rate)?rate:null};});
+    legend('#rev-hours-legend',[{id:'mean',name:'Mean',color:1,visible:!state.timeHidden.includes('mean')},{id:'q90',name:'90% finish by',color:2,visible:!state.timeHidden.includes('q90')}],item=>{state.timeHidden=state.timeHidden.includes(item.id)?state.timeHidden.filter(id=>id!==item.id):state.timeHidden.concat(item.id);save();drawHours();});
+    const rowHeight=coarse?46:42;
+    const b=svgBase('#rev-hours',20+rowHeight*3+64,'Time to collect all four at measured kill rates','Hours are calculated only for entered kills-per-hour rates.',116,84);
+    const values=data.filter(d=>d.rate).flatMap(d=>[d.m.mean/d.rate,quantile(d.m.p,.9)/d.rate]);
+    const max=values.length?d3.extent(values.concat(0))[1]:1;
+    const x=d3.scaleLinear().domain([0,max*1.08]).range([b.left+2,b.width-b.right]);
+    const {y}=axes(b,x,data.map(d=>d.m.name),rowHeight,20,'Hours for all four','Revenant');
+    for(const d of data){const cy=y(d.m.name)+y.bandwidth()/2;
+      if(!d.rate){b.svg.append('text').attr('class','value-label').attr('x',b.left+8).attr('y',cy+4).text('Rate needed');continue;}
+      const mean=d.m.mean/d.rate,q90=quantile(d.m.p,.9)/d.rate;
+      if(!state.timeHidden.includes('mean')&&!state.timeHidden.includes('q90'))moving(b.svg.append('line').attr('stroke','var(--border)').attr('stroke-width',1),'hours-line-'+d.m.id,{x1:x(mean),x2:x(q90),y1:cy,y2:cy},b.width);
+      if(!state.timeHidden.includes('mean'))moving(b.svg.append('circle').attr('r',4).attr('fill',color(1)),'hours-mean-'+d.m.id,{cx:x(mean),cy},b.width);
+      if(!state.timeHidden.includes('q90'))moving(b.svg.append('path').attr('d',d3.symbol().type(d3.symbolDiamond).size(40)()).attr('fill',color(2)),'hours-q90-'+d.m.id,{transform:`translate(${x(q90)},${cy})`},b.width);
+      const showMean=!state.timeHidden.includes('mean'),show90=!state.timeHidden.includes('q90');
+      const valuesLabel=(showMean?one.format(mean):'')+(showMean&&show90?' / ':'')+(show90?one.format(q90):'');
+      b.svg.append('text').attr('class','value-label tabular-nums').attr('x',x(show90?q90:mean)+7).attr('y',cy+4).text(valuesLabel);
+      attachHit(b.svg.append('rect').attr('x',b.left-4).attr('y',cy-rowHeight/2).attr('width',b.width-b.left).attr('height',rowHeight),d.m.name,()=>[['Entered kill rate',one.format(d.rate)+'/hour'],...(!state.timeHidden.includes('mean')?[['Mean',one.format(mean)+' hours']]:[]),...(!state.timeHidden.includes('q90')?[['90% finish by',one.format(q90)+' hours']]:[])]);
+    }
+    const summary=q('#rev-time-summary');summary.replaceChildren();
+    const measured=data.filter(d=>d.rate);
+    if(measured.length>1){const best=measured.reduce((a,b)=>a.m.mean/a.rate<b.m.mean/b.rate?a:b);const span=document.createElement('span');span.textContent='Lowest mean among entered rates: '+best.m.name+' · '+one.format(best.m.mean/best.rate)+' hours';summary.append(span);}
+    checkLabels(b.svg);
+  }
+  const select=q('#rev-target');
+  for(const m of monsters){const option=document.createElement('option');option.value=m.id;option.textContent=m.name;select.append(option);}
+  select.addEventListener('change',()=>{state.target=select.value;pinned=false;tooltip.hidden=true;save();drawCollection();});
+  for(const id of ['gob16','demon','dark'])q('#rev-rate-'+id).addEventListener('input',()=>{state.rates[id]=q('#rev-rate-'+id).value;save();drawHours();});
+  function drawAll(){
+    drawMonsterBars('#rev-kills','mean','Average kills to collect four items','Average kills',v=>compact(v));
+    drawMonsterBars('#rev-health','hp','Revenant health','Life points',v=>compact(v));
+    playerLegend();drawPlayers();drawWeapons();
+    simpleBars('#rev-ghost',[{name:'1 piece',value:3},{name:'2 pieces',value:6},{name:'3 pieces',value:10},{name:'4 pieces',value:10}],'Ghost Hunter damage bonus','Bonus damage (%)','Pieces worn',v=>v+'%');
+    for(const id of ['gob16','demon','dark'])q('#rev-rate-'+id).value=state.rates[id];
+    drawCollection();drawHours();
+  }
+  let lastWidth=0,frame;
+  const observer=new ResizeObserver(()=>{const width=root.getBoundingClientRect().width;if(Math.abs(width-lastWidth)>1){lastWidth=width;cancelAnimationFrame(frame);frame=requestAnimationFrame(drawAll);}});
+  observer.observe(root);drawAll();
+  window.addEventListener('openai:set_globals',event=>{if(event.detail?.globals?.widgetState){hydrate(event.detail.globals.widgetState);drawAll();}});
+})();
+</script>
